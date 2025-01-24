@@ -8,6 +8,11 @@ const hoursArray = [
     "Ten", "Eleven"
 ];
 
+const zeroToNineWords = [
+    "Zero", "One", "Two", "Three", "Four",
+    "Five", "Six", "Seven", "Eight", "Nine"
+];
+
 const minutesArray = [
     // 0-9 minutes (not used in this array)
     '', '', '', '', '', '', '', '', '', '',
