@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for character set and viewport settings -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coder Dojo</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Link to Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Marck+Script&family=Nixie+One&display=swap"
+        rel="stylesheet">
+    <!-- Link to external JavaScript file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="clock-container">
+            <img id="dayCycleImg" src="" alt="dayCycle" class="dayCycleIcon"
+                 data-sun-url="{{ url_for('static', filename='sun.svg') }}"
+                 data-moon-url="{{ url_for('static', filename='moon.svg') }}">
+            <div class="time-text">
+                <p><span id="time" class="digital-time"></span> <br> <span id="wordTime"></span></p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="title"
+    <h1>Health Advice Group</h1>
+    </div>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

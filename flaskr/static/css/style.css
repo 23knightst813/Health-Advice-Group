@@ -1,1 +1,83 @@
-/* Styling */
+body {
+    height: 100%;
+    overflow-y: hidden;
+ }
+
+.clock {
+    font-family: 'Nixie One', cursive;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100px;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.clock-container {
+    display: flex;
+    align-items: center;
+}
+
+.dayCycleIcon {
+    width: 40px;
+    height: 40px;
+    order: 2;
+    margin-left: 15px;
+}
+
+.time-text {
+    display: block;
+    text-align: right;
+    font-family: 'Major Mono Display', serif;
+    text-transform: lowercase;
+    font-size: 0.5rem;
+    order: 1;
+
+}
+
+.digital-time {
+    font-size: 2rem;
+    color: #333;
+}
+
+#wordTime {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.title {
+    font-family: 'Major Mono Display', serif;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 70px;
+    font-size: x-large;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 70px; 
+    flex-direction: row; 
+    margin-top: -100px;
+}
+
+.desc {
+    flex: 1; 
+    font-family: 'Nixie One';
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 49px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    max-width: 586px;
+}
+
+.indexArt {
+    flex: 1; 
+    max-width: 600px;
+    height: auto;
+}

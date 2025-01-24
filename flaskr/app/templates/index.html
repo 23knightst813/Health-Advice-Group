@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>My Flask App</title>
-</head>
+{% extends 'base.html' %}
+
+{% block content %}
+
 <body>
-    <header>
-        <h1>Welcome to My Flask App</h1>
-    </header>
-    <main>
-        <p>This is the main page of the application.</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 My Flask App</p>
-    </footer>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <div class="container">
+        <div class="desc">
+            <p> Expert guidance on environmental health issues, offering weather-related health advice, air quality
+                monitoring, and personalised tips to help individuals manage seasonal allergies, extreme temperatures,
+                and home environment </p>
+        </div>
+        <img class="indexArt" src="{{ url_for('static', filename='indexArt.svg') }}" alt="art">
+    </div>
 </body>
-</html>
+
+{% endblock %}
