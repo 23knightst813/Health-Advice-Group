@@ -1,7 +1,29 @@
 body {
     height: 100%;
     overflow-y: hidden;
+    background-color: #ffffff;
  }
+
+ nav {
+    font-family: 'Major Mono Display', serif;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
+    text-transform: lowercase;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: #000000 !important;
+    opacity: 0.7;
+}
+
+nav a:hover {
+    color: #000000 !important;
+    opacity: 1;
+}
 
 .clock {
     font-family: 'Nixie One', cursive;
@@ -51,7 +73,7 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 70px;
+    top: 50px;
     font-size: x-large;
 }
 
@@ -80,4 +102,5 @@ body {
     flex: 1; 
     max-width: 600px;
     height: auto;
+    filter: contrast(100%) grayscale(100% ) brightness(100%) exposure;
 }
