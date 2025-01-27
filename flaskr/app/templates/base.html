@@ -5,7 +5,7 @@
     <!-- Meta tags for character set and viewport settings -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Coder Dojo</title>
+    <title>Health Advice Group</title>
     <!-- Link to external CSS file -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
     <!-- Preconnect to Google Fonts -->
@@ -29,21 +29,32 @@
         <a href="/" class="navbar-btn">Risk Assessment</a>
     </nav>
 
+    <div class="login-bar">
+        {% if g.user %}
+        <span class="username">{{ g.user['username'] }}</span>
+        <a href="/auth/logout" class="navbar-btn">Log-out</a>
+        {% else %}
+        <a href="/auth/login" class="navbar-btn">Login</a>
+        <a href="/auth/register" class="navbar-btn">Register</a>
+        {% endif %}
+    </div>
+
     <div class="clock">
         <div class="clock-container">
             <img id="dayCycleImg" src="" alt="dayCycle" class="dayCycleIcon"
-                 data-sun-url="{{ url_for('static', filename='sun.svg') }}"
-                 data-moon-url="{{ url_for('static', filename='moon.svg') }}">
+                data-sun-url="{{ url_for('static', filename='sun.svg') }}"
+                data-moon-url="{{ url_for('static', filename='moon.svg') }}">
             <div class="time-text">
                 <p><span id="time" class="digital-time"></span> <br> <span id="wordTime"></span></p>
             </div>
         </div>
     </div>
+
     
-    
-    <div class="title"
-    <h1>Health Advice Group</h1>
+    <div class="title" <h1>Health Advice Group</h1>
     </div>
+
+
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -60,4 +71,5 @@
         {% endblock %}
     </main>
 </body>
+
 </html>

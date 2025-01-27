@@ -104,3 +104,26 @@ nav a:hover {
     height: auto;
     filter: contrast(100%) grayscale(100% ) brightness(100%) exposure;
 }
+
+
+
+.login-bar {
+    font-family: 'Major Mono Display', serif;
+    position: absolute;
+    right: 170px;
+    top: 65px;
+
+    text-transform: lowercase;
+    display: flex;
+    gap: 20px;
+}
+
+.login-bar a {
+    color: #000000 !important;
+    opacity: 0.7;
+}
+
+.login-bar a:hover {
+    color: #000000 !important;
+    opacity: 1;
+}
