@@ -15,6 +15,22 @@ body {
     gap: 20px;
 }
 
+.btn {
+    font-family: 'Major Mono Display', serif;
+    position: absolute;
+    text-transform: lowercase;
+    color: #000000 !important;
+    opacity: 0.7;
+    font-size: medium;
+}
+
+
+.btn:hover {
+    color: #000000 !important;
+    opacity: 1;
+}
+
+
 nav a {
     color: #000000 !important;
     opacity: 0.7;
@@ -67,13 +83,13 @@ nav a:hover {
     font-size: 0.8rem;
     color: #555;
 }
-
-.title {
+.title h1 {
     font-family: 'Major Mono Display', serif;
+    font-weight: normal !important; 
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 50px;
+    top: 30px;
     font-size: x-large;
 }
 
@@ -98,14 +114,6 @@ nav a:hover {
     max-width: 586px;
 }
 
-.indexArt {
-    flex: 1; 
-    max-width: 600px;
-    height: auto;
-    filter: contrast(100%) grayscale(100% ) brightness(100%) exposure;
-}
-
-
 
 .login-bar {
     font-family: 'Major Mono Display', serif;
@@ -126,4 +134,86 @@ nav a:hover {
 .login-bar a:hover {
     color: #000000 !important;
     opacity: 1;
+}
+
+.registerArt {
+    flex: 1; 
+    max-width: 400px;
+    height: auto;
+
+}
+
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 70px; 
+    flex-direction: row; 
+    margin-top: -100px;
+}
+
+.indexArt {
+    flex: 2; 
+    max-width: 600px;
+    height: auto;
+    filter: contrast(100%) grayscale(100% ) brightness(100%) exposure;
+}
+
+.login-page-head {
+    flex: 1; 
+    font-family: 'Nixie One';
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 49px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    max-width: 586px;
+}
+
+
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+    padding: 5px 0;
+    background: transparent;
+    color: #333;
+}
+
+input:focus {
+    border-bottom: 1px solid #666;
+}
+
+label {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: 16px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+}
+
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: -20px;
+    font-size: 14px;
+    color: #666;
 }

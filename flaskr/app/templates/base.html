@@ -32,10 +32,10 @@
     <div class="login-bar">
         {% if g.user %}
         <span class="username">{{ g.user['username'] }}</span>
-        <a href="/auth/logout" class="navbar-btn">Log-out</a>
+        <a href="/logout" class="navbar-btn">Log-out</a>
         {% else %}
-        <a href="/auth/login" class="navbar-btn">Login</a>
-        <a href="/auth/register" class="navbar-btn">Register</a>
+        <a href="/login" class="navbar-btn">Login</a>
+        <a href="/register" class="navbar-btn">Register</a>
         {% endif %}
     </div>
 
@@ -51,7 +51,8 @@
     </div>
 
     
-    <div class="title" <h1>Health Advice Group</h1>
+    <div class="title">
+        <h1><a href="/" style="text-decoration: none; color: inherit;">Health Advice Group</a></h1>
     </div>
 
 
