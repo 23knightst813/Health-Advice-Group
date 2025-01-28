@@ -19,9 +19,9 @@ def sign_in(email, password):
                 return redirect("/admin")
             return redirect("/")
         else:
-            print("Password mismatch")
+            flash("Invalid password", "error")
     else:
-        print("User not found")
+        flash("User not found", "error")
 
     flash("Invalid email or password", "error")
     return redirect("/login")

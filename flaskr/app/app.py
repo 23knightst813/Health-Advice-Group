@@ -45,8 +45,9 @@ def register():
         if not add_user(email, password, CRD):
             flash("Account already exists", "error")
             return redirect("/register")
-        flash("Registration successful! Please log in.", "success")
-        return redirect("/login")
+        flash("Registration successful.", "success")
+        sign_in(email, password)
+        return redirect("/")
     return render_template("register.html")
 
 

@@ -15,6 +15,8 @@ body {
     gap: 20px;
 }
 
+
+
 ::placeholder {
     font-family: 'Nixie One', cursive;
 }
@@ -318,4 +320,80 @@ input:not(:placeholder-shown) + label {
 
 .drop-group select:focus {
     color: #666;
+}
+
+/* Flash messages styling */
+.flashes {
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.flashes li {
+    font-family: 'Nixie One', cursive;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.flashes li:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+}
+
+
+.flashes .success {
+    background: rgba(250, 250, 250, 0.95);
+    border-color: #666;
+    color: #444;
+}
+
+.flashes .error {
+    background: rgba(50, 50, 50, 0.95);
+    border-color: #000;
+    color: #fff;
+}
+
+.flashes .info {
+    background: rgba(240, 240, 240, 0.95);
+    border-color: #999;
+    color: #666;
+}
+
+.flashes .warning {
+    background: rgba(150, 150, 150, 0.95);
+    border-color: #333;
+    color: #fff;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
