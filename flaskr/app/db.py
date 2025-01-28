@@ -24,20 +24,18 @@ def set_up_db():
 
 
 def add_user(email, password, CRD):
-    conn  = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
     try:
-        # Insert the new user into the 'users' table
+        # Correct the SQL syntax and column names
         cursor.execute('''
-            INSERT INTO users (email, password
+            INSERT INTO users (email, password_hash, crd)
             VALUES (?, ?, ?)
         ''', (email, hashed_password, CRD))
-        # Commit the changes to the database
         conn.commit()
         return True
     except sqlite3.IntegrityError:
         return False
     finally:
-        # Close the database connection
         conn.close()

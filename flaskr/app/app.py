@@ -8,6 +8,9 @@ from validation import is_not_empty, is_valid_email, is_within_length, is_secure
 
 app = Flask(__name__, static_folder='../static')
 
+
+app.secret_key = 'secret_key' 
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -42,14 +45,9 @@ def register():
         if not add_user(email, password, CRD):
             flash("Account already exists", "error")
             return redirect("/register")
-
-        try:
-            add_user(email, password, CRD)
-        except:
-            pass
-
+        flash("Registration successful! Please log in.", "success")
+        return redirect("/login")
     return render_template("register.html")
-
 
 
 

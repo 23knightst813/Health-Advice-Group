@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 def sign_in(email, password):
     conn = get_db_connection()
     cur = conn.cursor()
-    query = """SELECT email, password, is_admin FROM users WHERE email = ?"""
+    query = """SELECT email, password_hash, is_admin FROM users WHERE email = ?"""
     cur.execute(query, (email,))
     user = cur.fetchone()
     conn.close()
