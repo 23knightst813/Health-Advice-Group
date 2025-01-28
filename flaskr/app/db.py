@@ -6,20 +6,38 @@ def get_db_connection():
     return sqlite3.connect('Health.db')
 
 def set_up_db():
-
-    conn  = get_db_connection()
+    conn = get_db_connection()
     cursor = conn.cursor()
     
-    # Create the 'users' table if it doesn't exist
     cursor.execute('''
-    CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL,
-    crd TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        crd TEXT,
+        is_admin BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
     ''')
+    conn.commit()
+    conn.close()
 
 
-set_up_db()
+def add_user(email, password, CRD):
+    conn  = get_db_connection()
+    cursor = conn.cursor()
+    hashed_password = generate_password_hash(password)
+    try:
+        # Insert the new user into the 'users' table
+        cursor.execute('''
+            INSERT INTO users (email, password
+            VALUES (?, ?, ?)
+        ''', (email, hashed_password, CRD))
+        # Commit the changes to the database
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    finally:
+        # Close the database connection
+        conn.close()

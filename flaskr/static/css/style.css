@@ -228,6 +228,7 @@ input {
     padding: 5px 0;
     background: transparent;
     color: #333;
+    font-family: 'Nixie One', cursive;
 }
 
 input:focus {
@@ -251,7 +252,6 @@ input:not(:placeholder-shown) + label {
     font-size: 14px;
     color: #666;
 }
-
 
 .login-btn{
     text-decoration: underline;
