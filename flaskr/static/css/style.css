@@ -15,6 +15,10 @@ body {
     gap: 20px;
 }
 
+::placeholder {
+    font-family: 'Nixie One', cursive;
+}
+
 .btn {
     background: none;
     border: none;
@@ -140,13 +144,19 @@ nav a:hover {
 
 .registerArt {
     flex: 1; 
-    max-width: 400px;
+    max-width: 440px;
     height: auto;
     margin-top: 90px
 
 }
 
+.loginArt {
+    flex: 1; 
+    max-width: 550px;
+    height: auto;
+    margin-top: 120px
 
+}
 
 .login-container {
     display: flex;
@@ -177,6 +187,18 @@ nav a:hover {
     max-width: 586px;
     text-transform: lowercase;
     margin-top: 180px;
+}
+
+.welcome-page-head {
+    flex: 1; 
+    font-family: 'major mono display';
+    font-size: xx-large;
+    line-height: 49px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    max-width: 586px;
+    text-transform: lowercase;
+    margin-top: 120px;
 }
 
 
@@ -251,4 +273,49 @@ input:not(:placeholder-shown) + label {
 
 .social-buttons .login-btn {
     margin-right: 0;
+}
+
+
+.drop-group {
+    font-family: 'Nixie One', cursive;
+    font-size: 16px;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+    width: fit-content;
+    position: relative;
+    text-transform: capitalize;
+    margin-top: 12px;
+    max-width: 400px;
+    min-width: 400px;
+
+}
+
+.drop-group select {
+    border: none;
+    background: transparent;
+    font-size: inherit;
+    color: inherit;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    padding-right: 20px;
+    font-family: 'Nixie One', cursive;
+    text-transform: capitalize;
+
+}
+
+.drop-group::after {
+    content: "▼";
+    font-size: 12px;
+    color: #aaa;
+    position: absolute;
+    right: 5px;
+    pointer-events: none;
+}
+
+.drop-group select:focus {
+    color: #666;
 }

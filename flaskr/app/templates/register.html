@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="login-container">
+    <img class="registerArt" src="{{ url_for('static', filename='registerArt.png') }}" alt="">
+
+    <div class="welcome-page-head">
+        <p>Welcome</p>
+
+        <form class="register-form" action="/login" method="post">
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" name="email" required />
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" name="password" required />
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password2" placeholder="Password2" name="password2" required />
+            </div>
+
+            <div class="drop-group">
+                <select id="CRD" name="CRD" required>
+                    <option value="" disabled selected>CRD's</option>
+                    <option value="asthma">Asthma</option>
+                    <option value="copd">COPD</option>
+                    <option value="bronchitis">Chronic Bronchitis</option>
+                    <option value="emphysema">Emphysema</option>
+                    <option value="none">None</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn login-btn">Register</button>
+            <div class="social-buttons">
+                <a href="/google" class="btn login-btn">Google</a>
+                <a href="/discord" class="btn login-btn">Discord</a>
+            </div>
+            <a href="/login" class="btn login-btn" style="margin-top: 0;">Login</a>
+        </form>
+
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}
