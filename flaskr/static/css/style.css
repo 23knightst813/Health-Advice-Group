@@ -16,10 +16,12 @@ body {
 }
 
 .btn {
+    background: none;
+    border: none;
+    padding: 0;
     font-family: 'Major Mono Display', serif;
-    position: absolute;
     text-transform: lowercase;
-    color: #000000 !important;
+    color: #000000a1 !important;
     opacity: 0.7;
     font-size: medium;
 }
@@ -140,6 +142,7 @@ nav a:hover {
     flex: 1; 
     max-width: 400px;
     height: auto;
+    margin-top: 90px
 
 }
 
@@ -149,11 +152,13 @@ nav a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 85vh;
     gap: 70px; 
     flex-direction: row; 
-    margin-top: -100px;
+    align-items: flex-start;
 }
+
+
 
 .indexArt {
     flex: 2; 
@@ -164,15 +169,15 @@ nav a:hover {
 
 .login-page-head {
     flex: 1; 
-    font-family: 'Nixie One';
-    font-weight: 400;
-    font-size: 24px;
+    font-family: 'major mono display';
+    font-size: xx-large;
     line-height: 49px;
     letter-spacing: -0.02em;
     color: #000000;
     max-width: 586px;
+    text-transform: lowercase;
+    margin-top: 180px;
 }
-
 
 
 form {
@@ -180,10 +185,17 @@ form {
     flex-direction: column;
 }
 
+.register-form {
+    margin-top: -20px
+
+}
+
+
 .input-group {
     position: relative;
-    margin-bottom: 20px;
+    max-width: 400px;
 }
+
 
 input {
     width: 100%;
@@ -216,4 +228,27 @@ input:not(:placeholder-shown) + label {
     top: -20px;
     font-size: 14px;
     color: #666;
+}
+
+
+.login-btn{
+    text-decoration: underline;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-right: 200px;
+}
+
+.social-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 0px;
+    margin-right: 200px;
+
+}
+
+.social-buttons .login-btn {
+    margin-right: 0;
 }
