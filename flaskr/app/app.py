@@ -50,27 +50,6 @@ def register():
         return redirect("/")
     return render_template("register.html")
 
-
-
-def get_weather(city):
-    try:
-        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={APIkey}&units=metric"
-        response = requests.get(url)
-        data = response.json()
-       
-        if response.status_code == 200:
-            return {
-                'temperature': round(data['main']['temp']),
-                'description': data['weather'][0]['description'],
-                'icon': data['weather'][0]['icon']
-            }
-        return None
-    except Exception as e:
-        flash(f"Weather API error: {e}")
-        return None
-
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -79,6 +58,11 @@ def login():
         return sign_in(email, password)
 
     return render_template("login.html")
+
+
+
+
+
 
 if __name__ == "__main__":
     set_up_db()
