@@ -52,6 +52,24 @@ def register():
 
 
 
+def get_weather(city):
+    try:
+        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric"
+        response = requests.get(url)
+        data = response.json()
+       
+        if response.status_code == 200:
+            return {
+                'temperature': round(data['main']['temp']),
+                'description': data['weather'][0]['description'],
+                'icon': data['weather'][0]['icon']
+            }
+        return None
+    except Exception as e:
+        flash(f"Weather API error: {e}")
+        return None
+
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
