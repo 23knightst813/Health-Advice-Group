@@ -54,7 +54,7 @@ def register():
 
 def get_weather(city):
     try:
-        url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}&units=metric"
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={APIkey}&units=metric"
         response = requests.get(url)
         data = response.json()
        
