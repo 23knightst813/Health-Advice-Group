@@ -133,3 +133,19 @@
 - Actual Result: Flask Flash message indicating the password field is required.
 - Status: Pass
 - Dependencies: User Database Table + Registration
+
+## Test Case 4: Forecast
+- Event:
+    - Load Page
+- Expected Result: Forecast and tips are displayed to the user
+- Actual Result: Plage is blank
+- Status: Fail
+- Fix: Properly format the data before feeding into front end
+- Dependencies: Weather API backend
+
+- Event:
+    - Load Page
+- Expected Result:
+- Actual Result:
+- Status:
+- Dependencies

@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, flash, redirect
 
 from db import set_up_db,  add_user
 from auth import sign_in, logout
-from validation import is_not_empty, is_valid_email, is_within_length, is_secure_password
-
+from validation import is_not_empty, is_valid_email, is_secure_password
+from weather import  get_weather_data
 
 
 app = Flask(__name__, static_folder='../static')
@@ -50,6 +50,7 @@ def register():
         return redirect("/")
     return render_template("register.html")
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -59,7 +60,16 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/forecast")
+def forecast():
+    """Flask route for weather forecast page."""
+    data = get_weather_data()
 
+    if not data:
+        flash("Unable to retrieve weather forecast.", "error")
+        return render_template("forecast.html", data=None)
+
+    return render_template("forecast.html", data=data)
 
 
 

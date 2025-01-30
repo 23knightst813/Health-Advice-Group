@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <p class="forecast-header">{{ data.location }}</p>
+        <div class="forecast-cards">
+            {% for day in data.forecast %}
+                <div class="forecast-card {% if day.day == 'Today' %}highlight{% endif %}">
+                    <p>{{ day.day }}</p>
+                    <p class="temp">{{ day.temp }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="health-tips">
+            {% for tip in data.health_tips %}
+                <h3>{{ tip.title }}</h3>
+                <p>{{ tip.tip }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock %}

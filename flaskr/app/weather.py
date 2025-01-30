@@ -1,40 +1,62 @@
+import datetime
 import requests
+from flask import flash
 
 
 
-response = requests.get("https://ipinfo.io/json")
-data = response.json()
+def get_weather_data():
+    """Fetch user's location and retrieve weather forecast based on latitude and longitude."""
+    try:
+        # Step 1: Get user's approximate location based on IP
+        ip_response = requests.get("https://ipinfo.io/json")
+        ip_response.raise_for_status()
+        ip_data = ip_response.json()
 
-city_name = data['city']
+        if 'city' not in ip_data:
+            flash("City not found in IP data.", "error")
+            return None
 
-print(city_name)
+        city_name = ip_data['city']
 
-geocoding_url = f'https://geocoding-api.open-meteo.com/v1/search?name={city_name}'
-response = requests.get(geocoding_url)
-data = response.json()
+        # Step 2: Convert city name to latitude & longitude
+        geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}"
+        geo_response = requests.get(geo_url)
+        geo_response.raise_for_status()
+        geo_data = geo_response.json()
 
-if 'results' in data:
-    city = data['results'][0]
-    lat = city['latitude']
-    long = city['longitude']
-    print(f"Coordinates for {city_name}: {lat}, {long}")
-else:
-    print("City not found.")
+        if "results" not in geo_data:
+            flash("City not found in geocoding API.", "error")
+            return None
 
-url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&daily=temperature_2m_max,temperature_2m_min"
+        city = geo_data['results'][0]
+        lat, lon = city['latitude'], city['longitude']
 
-response = requests.get(url)
-response.raise_for_status()
-weather_data = response.json()
+        # Step 3: Fetch weather forecast using lat & lon
+        weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto"
+        weather_response = requests.get(weather_url)
+        weather_response.raise_for_status()
+        weather_data = weather_response.json()
 
-print(weather_data)
+        # Step 4: Format the forecast data
+        forecast = {
+            "location": city_name,
+            "current_time": datetime.datetime.now().strftime("%H:%M"),
+            "forecast": [
+                {"day": "Today", "temp": f"{weather_data['daily']['temperature_2m_max'][0]}°C"},
+                {"day": "Tomorrow", "temp": f"{weather_data['daily']['temperature_2m_max'][1]}°C"},
+                {"day": "Day 3", "temp": f"{weather_data['daily']['temperature_2m_max'][2]}°C"},
+                {"day": "Day 4", "temp": f"{weather_data['daily']['temperature_2m_max'][3]}°C"},
+                {"day": "Day 5", "temp": f"{weather_data['daily']['temperature_2m_max'][4]}°C"}
+            ],
+            "health_tips": [
+                {"title": "High AQI (Air Quality Index):", "tip": "Avoid outdoor activities if you have respiratory conditions like asthma."},
+                {"title": "High Pollen Count:", "tip": "Keep windows closed and wash your hands and face after being outside."}
+            ]
+        }
 
-forecast = [
-    {"day": "Today", "temp": f"{weather_data['daily']['temperature_2m_max'][0]}°"},
-    {"day": "Tomorrow", "temp": f"{weather_data['daily']['temperature_2m_max'][1]}°"},
-    {"day": "Day 3", "temp": f"{weather_data['daily']['temperature_2m_max'][2]}°"},
-    {"day": "Day 4", "temp": f"{weather_data['daily']['temperature_2m_max'][3]}°"},
-    {"day": "Day 5", "temp": f"{weather_data['daily']['temperature_2m_max'][4]}°"}
-]
+        return forecast
 
-print(forecast)
+    except requests.RequestException as e:
+        flash(f"Error retrieving data: {str(e)}", "error")
+        return None
+

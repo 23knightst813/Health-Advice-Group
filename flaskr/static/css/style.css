@@ -397,3 +397,69 @@ input:not(:placeholder-shown) + label {
         opacity: 1;
     }
 }
+
+
+.forecast-header {
+    flex: 1; 
+    font-family: 'major mono display';
+    font-size: xx-large;
+    line-height: 49px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    max-width: 586px;
+    text-transform: lowercase;
+}
+
+
+.forecast-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+}
+
+
+.forecast-cards {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.forecast-card {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100px;
+    font-family: 'Nixie One', cursive;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.forecast-card:hover {
+    background: black;
+}
+
+.today-card {
+    width: 150px;
+    background: black;
+}
+
+.health-tips {
+    font-family: 'Nixie One', cursive;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 30px;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.health-tips h3 {
+    font-family: 'Major Mono Display', serif;
+    text-transform: lowercase;
+}
+
+.health-tips p {
+    line-height: 1.6;
+}
