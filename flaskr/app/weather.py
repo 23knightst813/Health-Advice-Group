@@ -1,6 +1,21 @@
 import datetime
 import requests
 from flask import flash
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+
+#Load env varibles
+
+load_dotenv()
+
+#Load the API key from the environment variable
+API_KEY = os.getenv("GEMINI_API_KEY")
+
+genai.configure(api_key="GEMINI_API_KEYY")
+model = genai.GenerativeModel("gemini-1.5-flash")
+response = model.generate_content("Explain how AI works")
+print(response.text)
 
 
 

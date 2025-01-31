@@ -1,2 +1,3 @@
 Health.db
 flaskr/app/__pycache__/
+flaskr/app/.env
