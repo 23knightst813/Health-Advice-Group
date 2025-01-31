@@ -151,3 +151,26 @@
 - Fix: Add Css to fix this issue
 - Dependencies: Weather API backend
 
+## Test Case 4: Forecast - Tips
+- Event:
+    - Test the api
+- Expected Result: Google API returns valid resulr
+- Actual Result: Enter A Valid api key
+- Status: Fail
+- Fix: I was setting the api key to the string "api_key"
+
+- Event:
+    - Run Forcast function after refactor
+- Expencted Result: Data is displayed to the website as normal
+- Actual Result: TypeError: 'NoneType' object is not iterable
+- Status: Fail
+- Fix: Finsih Ai tips top return a formated response
+
+- Event:
+    - Run Forcast function after last fix
+- Expencted Result: Data is displayed to the website as normal
+- Actual Result: built-in method title of str object at 0x00000133A93D50F0
+- Status: Fail
+- Fix: Fix formating
+
+
