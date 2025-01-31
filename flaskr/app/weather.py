@@ -5,6 +5,10 @@ import os
 from dotenv import load_dotenv
 import json
 
+from auth import get_user_id_by_email
+from db import get_db_connection
+
+
 # Load environment variables
 try:
     load_dotenv()
@@ -77,9 +81,22 @@ def get_weather_conditions():
 def get_ai_tips():
     """Generate AI-generated health tips using Generative AI model."""
     
+    #Get Conditions From Database
+
+    try:
+        user_id = get_user_id_by_email()
+    except Exception as e:
+        flash(f"Not Signed In", "error")
+        conditions = "None"
+    else:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT crd FROM users WHERE id = ?", (user_id,))
+        conditions = cursor.fetchone()
+        conn.close()
+
     city_name, weather_data = raw_weather()
 
-    conditions = "asthma"
     current_weather_conditions = get_weather_conditions()
 
     prompt = f"""

@@ -2,6 +2,7 @@ from flask import session, flash, redirect
 from db import get_db_connection
 from werkzeug.security import check_password_hash
 
+
 def sign_in(email, password):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -30,3 +31,24 @@ def logout():
     session.clear()
 
 
+def get_user_id_by_email():
+    try:
+        email = session.get("email")
+        if not email:
+            flash("User not logged in", "error")
+            return None
+            
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM users WHERE email = ?', (email,))
+        result = cursor.fetchone()
+        conn.close()
+        
+        if not result:
+            flash("User not found", "error")
+            return None
+            
+        return result[0]
+    except Exception as e:
+        flash(f"Database error: {str(e)}", "error")
+        return None

@@ -39,3 +39,5 @@ def add_user(email, password, CRD):
         return False
     finally:
         conn.close()
+
+
