@@ -39,7 +39,7 @@ def get_weather_data():
 
         # Step 4: Format the forecast data
         forecast = {
-            "location": city_name,
+            "location": city_name.capitalize(),
             "current_time": datetime.datetime.now().strftime("%H:%M"),
             "forecast": [
                 {"day": "Today", "temp": f"{weather_data['daily']['temperature_2m_max'][0]}°C"},
@@ -53,7 +53,7 @@ def get_weather_data():
                 {"title": "High Pollen Count:", "tip": "Keep windows closed and wash your hands and face after being outside."}
             ]
         }
-
+        print(city_name)
         return forecast
 
     except requests.RequestException as e:

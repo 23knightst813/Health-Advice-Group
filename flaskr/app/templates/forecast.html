@@ -2,8 +2,8 @@
 
 {% block content %}
 <body>
+    <p class="forecast-header">{{ data.location }}</p>
     <div class="container">
-        <p class="forecast-header">{{ data.location }}</p>
         <div class="forecast-cards">
             {% for day in data.forecast %}
                 <div class="forecast-card {% if day.day == 'Today' %}highlight{% endif %}">
@@ -19,5 +19,73 @@
             {% endfor %}
         </div>
     </div>
+
+<style>
+.forecast-header {
+    flex: 1; 
+    font-family: nixie One, cursive;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 15vh;   
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: -150px; 
+}
+
+
+.forecast-cards {
+    display: flex;
+    gap: 15px;
+    justify-content: center !;
+}
+
+.forecast-card {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100px;
+    font-family: 'Nixie One', cursive;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.forecast-card:hover {
+    background: black;
+}
+
+.today-card {
+    width: 150px;
+    background: black;
+}
+
+.health-tips {
+    width: 100%;
+    font-family: 'Nixie One', cursive;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 5px;
+    padding: 20px;
+    max-width: 600px;
+    margin-bottom: 250px;
+}
+
+.health-tips h3 {
+    font-family: 'Major Mono Display', serif;
+    text-transform: lowercase;
+}
+
+.health-tips p {
+    line-height: 1.6;
+}
+
+</style>
+
 </body>
 {% endblock %}

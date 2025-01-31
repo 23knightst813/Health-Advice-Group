@@ -145,7 +145,9 @@
 
 - Event:
     - Load Page
-- Expected Result:
-- Actual Result:
-- Status:
-- Dependencies
+- Expected Result: Styling and formating is correct
+- Actual Result: Styling is layed out in rows not one collum
+- Status: Fail
+- Fix: Add Css to fix this issue
+- Dependencies: Weather API backend
+
