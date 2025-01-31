@@ -171,6 +171,6 @@
 - Expencted Result: Data is displayed to the website as normal
 - Actual Result: built-in method title of str object at 0x00000133A93D50F0
 - Status: Fail
-- Fix: Fix formating
+- Fix: Data Parsing
 
 

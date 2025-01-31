@@ -83,7 +83,7 @@ def get_ai_tips():
     current_weather_conditions = get_weather_conditions()
 
     prompt = f"""
-    Generate one specific health tip for someone with {conditions} based on today's weather conditions in {city_name}.
+    Generate one specific health tip for someone with {conditions} based on today's weather conditions in and Environmental Factors {city_name}.
     Weather: {weather_data}
     Environmental Factors: {current_weather_conditions}
 
@@ -94,7 +94,8 @@ def get_ai_tips():
     4. Keep it concise
     5. Provide at 3 of the most relevant tips
     6. USE  Environmental Factors
-    7. Return ONLY valid JSON without any additional formatting or text
+    7. Mention the users condition
+    8. Return ONLY valid JSON without any additional formatting or text
 
     Format your response EXACTLY like this example:
     {{"title": "Weather Alert e.g High wind", "tip": "Brief specific health advice"}}
