@@ -27,8 +27,7 @@ def sign_in(email, password):
     flash("Invalid email or password", "error")
     return redirect("/login")
 
-def logout():
-    session.clear()
+
 
 
 def get_user_id_by_email():

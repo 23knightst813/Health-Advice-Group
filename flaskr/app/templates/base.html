@@ -30,8 +30,7 @@
     </nav>
 
     <div class="login-bar">
-        {% if g.user %}
-        <span class="username">{{ g.user['username'] }}</span>
+        {% if session["email"] %}
         <a href="/logout" class="navbar-btn">Log-out</a>
         {% else %}
         <a href="/login" class="navbar-btn">Login</a>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, session
 
 from db import set_up_db,  add_user
 from auth import sign_in, logout
@@ -14,6 +14,11 @@ app.secret_key = 'secret_key'
 @app.route("/")
 def index():
     return render_template('index.html')
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
