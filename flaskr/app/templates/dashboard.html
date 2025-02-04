@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body></body>
+
+    <div class="title">
+        <p>dashboard</p>
+    </div>
+
+    <div class="air-quality">
+        <h2>Air Quality Index</h2>
+        <img src="{{ url_for('static', filename='unhealthyBox.png') }}" class="air-quality-box" alt="Air Quality Index">
+        <p class="aq-text">Unhealthy</p>
+    </div>
+
+    <div class="quality-key">
+        <img src="{{ url_for('static', filename='qualityKey.svg') }}" alt="Air Quality Index Key">
+    </div>
+    <div class="summary">
+    <h2>Summary</h2>
+    <p>Sunny with light winds. High of 25°C, low of 18°C. Moderate air quality with AQI of 75. UV Index is high, so take precautions if spending time outdoors. Sunset at 7:45 PM.</p>
+    </div>
+    <div class="general-health">
+        <h2>General Health Recommendations</h2>
+        <p>Wear sunscreen for high UV, consider a mask for moderate air quality, and take antihistamines if pollen-sensitive.</p>
+    </div>
+
+    <style>
+        body {
+            font-family: 'Nixie One', sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+        .title {
+            margin-top: 50px !important;
+            margin-bottom: 10px;
+            font-family: 'Major Mono Display', monospace;
+            font-size: xx-large;
+        }
+
+        .summary, .general-health, .air-quality {
+            margin: 30px 0;
+        }
+
+        .title {
+            
+            margin-top: 90px;
+        }
+        .air-quality-box {
+            width: 300px;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .quality-key img {
+            width: 100%;
+            max-width: 600px;
+        }
+
+
+    </style>
+</body>
+
+{% endblock %}

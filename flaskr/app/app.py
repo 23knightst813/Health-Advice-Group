@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session
 
 from db import set_up_db,  add_user
-from auth import sign_in, logout
+from auth import sign_in
 from validation import is_not_empty, is_valid_email, is_secure_password
 from weather import  get_weather_data
 
@@ -76,6 +76,9 @@ def forecast():
 
     return render_template("forecast.html", data=data)
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 
 

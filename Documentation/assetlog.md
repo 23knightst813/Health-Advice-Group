@@ -1,4 +1,4 @@
-# Asset Log for Libraries Used
+# Asset Log
 
 ## Python Libraries
 - Flask: A micro web framework for Python.
@@ -29,7 +29,7 @@
 - Github: Code Snippets
   - Source: https://github.com/23knightst813/Coder-Dojo
   - License: Owned by the author (Theo)
-  - Rationale: Used to get code snippets of code I have allreayd made cutting devlopment times
+  - Rationale: Used to get code snippets of code I have allready made cutting devlopment times
 
 ## Other Assets
 Images: Design Features On Pages 
@@ -42,4 +42,11 @@ Images: Design Features On Pages
   - Source: https://www.tumblr.com/professorgartblog/613487630847557632/value-using-light-and-dark
   - License: No explicit license provided. Usage falls under fair use for prototyping purposes.
   - Rationale: These images are directly used in web pages to provide visual elements and improve the aesthetic appeal of the prototype. Since this is not a final product, the use is for demonstration and testing only. If the project moves beyond the prototype stage, alternative images with proper licensing should be sourced.
+
+Imagies: Dashboard Graphical Keys
+ - Source: https://br.pinterest.com/ascarielena/
+   - License: No explicit license provided. Usage falls under fair use for prototyping purposes.
+   - Rationale: Provide visual identifcation of how bad or good the weather is and improve the aesthetic appeal of the prototype. Since this is not a final product, the use is for demonstration and testing only. If the project moves beyond the prototype stage, alternative images with proper licensing should be sourced.
+
+
 
