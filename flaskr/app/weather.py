@@ -31,11 +31,11 @@ except ValueError as e:
 def get_aqi_category(aqi):
     """Categorize AQI value into quality groups."""
     aqi = int(aqi)
-    if aqi <= 50: return 'great'
+    if aqi <= 50: return 'Moderate'
     elif aqi <= 100: return 'good'
-    elif aqi <= 150: return 'okay'
-    elif aqi <= 200: return 'bad'
-    else: return 'unhealthy'
+    elif aqi <= 150: return 'Bad'
+    elif aqi <= 200: return 'Unhealthy'
+    else: return 'Hazard'
 
 
 def get_air_quality():
@@ -106,7 +106,7 @@ def get_air_ai_tips():
         try:
             user_id = get_user_id_by_email()
         except Exception as e:
-            flash("User not signed in, proceeding anonymously", "info")
+            print("User not signed in, proceeding anonymously", "info")
 
         # Get health conditions if user is logged in
         if user_id:
@@ -225,7 +225,7 @@ def get_ai_tips():
     try:
         user_id = get_user_id_by_email()
     except Exception as e:
-        flash(f"Not Signed In", "error")
+        flash(f"Not Signed In", "warning")
         conditions = "None"
     else:
         conn = get_db_connection()

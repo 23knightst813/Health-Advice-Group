@@ -4,72 +4,136 @@
 
 <body></body>
 
-    <div class="title">
-        <p>dashboard</p>
-    </div>
+<div class="title">
+    <p>dashboard</p>
+</div>
 
-    <div class="air-quality">
-        <h2>Air Quality Index</h2>
-        <!-- Dynamic image based on AQI category -->
-        <img src="{{ url_for('static', filename=data.category + 'Box.png') }}"
-             class="air-quality-box" 
-             alt="Air Quality Index">
-        <p class="aq-text">{{ data.category | capitalize }} (AQI {{ data.AQI }})</p>
-    </div>
+<div class="air-quality">
+    <h2>Air Quality Index</h2>
+    <p class="aq-text">{{ data.category | capitalize }} (AQI {{ data.AQI }})</p>
+</div>
 
-    <div class="quality-key">
-        <img src="{{ url_for('static', filename='qualityKey.svg') }}" alt="Air Quality Index Key">
-    </div>
-    
-    <div class="summary">
-        <h2>Summary</h2>
-        <p>{{ data.summary }}</p>
-    </div>
-    
-    <div class="general-health">
-        <h2>Health Recommendations</h2>
-        <p>{{ data.recommendations }}</p>
-    </div>
-
-    {% if data.error %}
-    <div class="error-message">
-        <h2>Error</h2>
-        <p>{{ data.error }}</p>
-    </div>
+<div class="labels">
+    {% if data.category == 'Hazard' %}
+        <span class="label Hazard" style="font-weight: bold">Hazard</span>
+    {% else %}
+        <span class="label Hazard">Hazard</span>
     {% endif %}
+    
+    {% if data.category == 'Bad' %}
+        <span class="label Bad" style="font-weight: bold">Bad</span>
+    {% else %}
+        <span class="label Bad">Bad</span>
+    {% endif %}
+    
+    {% if data.category == 'Unhealthy' %}
+        <span class="label Unhealthy" style="font-weight: bold">Unhealthy</span>
+    {% else %}
+        <span class="label Unhealthy">Unhealthy</span>
+    {% endif %}
+    
+    {% if data.category == 'Moderate' %}
+        <span class="label Moderate" style="font-weight: bold !important">Moderate</span>
+    {% else %}
+        <span class="label Moderate">Moderate</span>
+    {% endif %}
+    
+    {% if data.category == 'Good' %}
+        <span class="label Good" style="font-weight: bold">Good</span>
+    {% else %}
+        <span class="label Good">Good</span>
+    {% endif %}
+</div>
 
-    <style>
+<div class="image-key-container">
+    <img src="{{ url_for('static', filename='qualityKey.svg') }}" alt="Air Quality Index Key">
+</div>
 
-        body {
-            text-align: center;
-        }
+<div class="summary">
+    <h2>Summary</h2>
+    <p>{{ data.summary }}</p>
+</div>
+
+<div class="general-health">
+    <h2>Health Recommendations</h2>
+    <p>{{ data.recommendations }}</p>
+</div>
+
+{% if data.error %}
+<div class="error-message">
+    <h2>Error</h2>
+    <p>{{ data.error }}</p>
+</div>
+{% endif %}
+
+<style>
+    body {
+        text-align: center;
+    }
 
 
-        .summary, .general-health, .air-quality {
-            margin: 30px 0;
-        }
+    .summary,
+    .general-health,
+    .air-quality {
+        margin: 30px 0;
+    }
 
-        .title {
-            
-            margin-top: 90px;
-        }
-        .air-quality-box {
-            width: 300px;
-            display: block;
-            margin: 10px auto;
-        }
+    .title {
+        margin-top: 90px;
+    }
 
-        .quality-key img {
-            width: 100%;
-            max-width: 600px;
-        }
 
-        .error-message {
-            color: red;
-            margin: 30px 0;
-        }
+    .image-key-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 600px;
+        min-width: 600px !important;
+    }
 
-    </style>
+    .image-key-container img {
+        width: 100%;
+    }
+
+    .labels {
+        position: absolute;
+        top: 36%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+        display: flex;
+    }
+
+    .label {
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+        padding: 2px 5px;
+        position: absolute;
+        transform: translateX(-50%);
+    }
+
+    .Hazard {
+        left: 38%;
+    }
+
+    .Bad {
+        left: 44.5%;
+    }
+
+    .Unhealthy {
+        left:50.5%;
+    }
+
+    .Moderate {
+        left: 56.5%;
+    }
+
+    .Good {
+        left: 62.8%;
+    }
+
+</style>
 </body>
 
 {% endblock %}
