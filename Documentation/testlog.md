@@ -151,10 +151,10 @@
 - Fix: Add Css to fix this issue
 - Dependencies: Weather API backend
 
-## Test Case 4: Forecast - Tips
+## Test Case 5: Forecast - Tips
 - Event:
     - Test the api
-- Expected Result: Google API returns valid resulr
+- Expected Result: Google API returns valid result
 - Actual Result: Enter A Valid api key
 - Status: Fail
 - Fix: I was setting the api key to the string "api_key"
@@ -173,6 +173,13 @@
 - Status: Fail
 - Fix: Data Parsing
 
+## Test Case 7: Air Quality Dashbaord
+- Event:
+    -Load the page
+- Expected Result: Page loads with live api data
+- Actual Result: The data is not live and is hardcoded
+- Status: Fail
+- Fix: Add api calling and parse said data to the page
 
 
 
