@@ -4,7 +4,7 @@
 <body>
     <div class="page-wrapper">
         <div class="content-container">
-            <p class="forecast-header">{{ data.location }}</p>
+            <p class="title" style="text-transform: lowercase;">{{ data.location }}</p>
             <div class="container">
                 <div class="forecast-cards">
                     {% for day in data.forecast %}
@@ -44,6 +44,7 @@
     font-family: 'Nixie One', cursive;
     font-size: 24px;
     text-align: center;
+    margin-top: 80px;
 
 }
 
@@ -59,7 +60,6 @@
 .forecast-cards {
     display: flex;
     gap: 15px;
-    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -89,6 +89,7 @@
     width: 100%;
     font-family: 'Nixie One', cursive;
     font-size: 14px;
+    margin-bottom: 100px;
     padding: 20px;
     max-width: 600px;
     background: rgba(255, 255, 255, 0.05);
@@ -100,6 +101,7 @@
     text-transform: lowercase;
     margin-bottom: 10px;
     margin-top: 20px;
+    
 }
 
 .health-tips h3:first-child {

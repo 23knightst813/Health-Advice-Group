@@ -105,17 +105,17 @@ def get_ai_tips():
     Environmental Factors: {current_weather_conditions}
 
     Requirements:
-    1. Focus on asthma management
     2. Consider temperature effects
     3. Make it practical and actionable
-    4. Keep it concise
+    4. Keep it very detialed
     5. Provide at 3 of the most relevant tips
     6. USE  Environmental Factors
-    7. Mention the users condition
+    7. Mention the users condition if they have any 
     8. Return ONLY valid JSON without any additional formatting or text
+    9. Only have 15 lines of advice total maximum
 
     Format your response EXACTLY like this example:
-    {{"title": "Weather Alert e.g High wind", "tip": "Brief specific health advice"}}
+    {{"title": "Weather Alert e.g High wind", "tip": "specific scientific health advice"}}
 
     Your response must be valid JSON and nothing else.
     """

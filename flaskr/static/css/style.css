@@ -170,7 +170,12 @@ nav a:hover {
     align-items: flex-start;
 }
 
-
+.title {
+    margin-top: 50px !important;
+    margin-bottom: 10px;
+    font-family: 'Major Mono Display', monospace;
+    font-size: xx-large;
+}
 
 .indexArt {
     flex: 2; 
