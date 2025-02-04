@@ -175,11 +175,15 @@
 
 ## Test Case 7: Air Quality Dashbaord
 - Event:
-    -Load the page
+    - Load the page
 - Expected Result: Page loads with live api data
 - Actual Result: The data is not live and is hardcoded
 - Status: Fail
 - Fix: Add api calling and parse said data to the page
 
-
-
+- Event:
+    - Load the page
+- Expected Result: Page loads with api data displayed
+- Actual Result: JSON parsing failed: Expecting value: line 1 column 1 (char 0)
+- Status: Fail
+- Fix: Fix data parsing

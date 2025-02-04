@@ -28,6 +28,132 @@ try:
 except ValueError as e:
     flash(f"Error loading Generative AI API: {str(e)}", "error")
 
+
+def get_air_quality():
+    """Get air quality data for health tips."""
+    city_name = get_location_from_ip()
+    coordinates = get_coordinates(city_name)
+
+    lat, lon = coordinates
+
+    url = "https://air-quality-api.open-meteo.com/v1/air-quality"
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "hourly": ["ozone", "aerosol_optical_depth", "european_aqi", "european_aqi_pm2_5", "european_aqi_pm10"]
+    }
+
+    try:
+        # Fetch air quality data
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # Raise an exception for bad status codes
+        
+        data = response.json()  # Parse the JSON response
+        hourly = data.get('hourly', {})
+        
+        # Get the arrays of values
+        hourly_ozone = hourly.get('ozone', [])
+        hourly_aerosol = hourly.get('aerosol_optical_depth', [])
+        hourly_aqi = hourly.get('european_aqi', [])
+        hourly_pm25 = hourly.get('european_aqi_pm2_5', [])
+        hourly_pm10 = hourly.get('european_aqi_pm10', [])
+
+        # Calculate averages safely
+        def safe_average(values):
+            return sum(values) / len(values) if values else 0
+
+        return {
+            "ozone": safe_average(hourly_ozone),
+            "aerosol": safe_average(hourly_aerosol),
+            "aqi": safe_average(hourly_aqi),
+            "pm2_5": safe_average(hourly_pm25), 
+            "pm10": safe_average(hourly_pm10)
+        }
+
+    except requests.RequestException as e:
+        flash(f"Error fetching air quality data: {str(e)}", "error")
+        return None
+    except ValueError as e:
+        flash(f"Error parsing air quality data: {str(e)}", "error")
+        return None
+
+
+def get_air_ai_tips():
+    """Generate air quality insights and recommendations based on user health conditions."""
+    response_template = {
+        "AQI": "",
+        "summary": "",
+        "recommendations": ""
+    }
+
+    # Initialize default values
+    conditions = None
+    user_id = None
+    air_quality = None
+    city_name = "your area"
+
+    try:
+        # Get user information
+        try:
+            user_id = get_user_id_by_email()
+        except Exception as e:
+            flash("User not signed in, proceeding anonymously", "info")
+
+        # Get health conditions if user is logged in
+        if user_id:
+            conn = get_db_connection()
+            try:
+                with conn:
+                    cursor = conn.cursor()
+                    cursor.execute("SELECT conditions FROM users WHERE id = ?", (user_id,))
+                    result = cursor.fetchone()
+                    conditions = result[0] if result else None
+            finally:
+                conn.close()
+
+        # Get environmental data
+        air_quality = get_air_quality()
+        city_name = get_location_from_ip() or "your area"
+
+        prompt = f"""
+        Generate a concise air quality summary and health recommendations for {city_name}.
+        User health conditions: {conditions}
+        Current air quality data: {air_quality}
+
+        Requirements:
+        1. Structure response as valid JSON
+        2. Include AQI value, summary, and recommendations
+        3. Keep recommendations practical and specific to the air quality data
+        4. Mention any relevant considerations for the user's health conditions
+
+        Example format:
+        {{
+            "AQI": "AQI_VALUE",
+            "summary": "Brief air quality summary...",
+            "recommendations": "Specific health recommendations..."
+        }}
+        """
+
+        # Generate and validate response
+        response = model.generate_content(prompt)
+        response_data = json.loads(response.text.strip())
+
+        # Validate response structure
+        if not all(key in response_data for key in response_template):
+            raise ValueError("Invalid response structure from AI model")
+
+        return response_data
+
+    except json.JSONDecodeError as e:
+        flash(f"JSON parsing failed: {str(e)}", "error")
+        return {"error": "Failed to parse AI response"}
+    except Exception as e:
+        flash(f"Error generating tips: {str(e)}", "error")
+        return {"error": "Unable to generate recommendations at this time"}
+
+
+
+
 def get_weather_conditions():
     """Get weather conditions for health tips."""
     city_name = get_location_from_ip()

@@ -10,26 +10,30 @@
 
     <div class="air-quality">
         <h2>Air Quality Index</h2>
-        <img src="{{ url_for('static', filename='unhealthyBox.png') }}" class="air-quality-box" alt="Air Quality Index">
-        <p class="aq-text">Unhealthy</p>
+        <!-- Dynamic image based on AQI category -->
+        <img src="{{ url_for('static', filename='images/' + data.category + 'Box.png') }}" 
+             class="air-quality-box" 
+             alt="Air Quality Index">
+        <p class="aq-text">{{ data.category | capitalize }} (AQI {{ data.AQI }})</p>
     </div>
 
     <div class="quality-key">
         <img src="{{ url_for('static', filename='qualityKey.svg') }}" alt="Air Quality Index Key">
     </div>
+    
     <div class="summary">
-    <h2>Summary</h2>
-    <p>Sunny with light winds. High of 25°C, low of 18°C. Moderate air quality with AQI of 75. UV Index is high, so take precautions if spending time outdoors. Sunset at 7:45 PM.</p>
+        <h2>Summary</h2>
+        <p>{{ data.summary }}</p>
     </div>
+    
     <div class="general-health">
-        <h2>General Health Recommendations</h2>
-        <p>Wear sunscreen for high UV, consider a mask for moderate air quality, and take antihistamines if pollen-sensitive.</p>
+        <h2>Health Recommendations</h2>
+        <p>{{ data.recommendations }}</p>
     </div>
 
     <style>
+
         body {
-            font-family: 'Nixie One', sans-serif;
-            background-color: #f8f8f8;
             text-align: center;
         }
 
@@ -58,3 +62,5 @@
 </body>
 
 {% endblock %}
+
+
