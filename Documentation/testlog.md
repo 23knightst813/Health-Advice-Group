@@ -151,6 +151,13 @@
 - Fix: Add Css to fix this issue
 - Dependencies: Weather API backend
 
+- Event:
+    - Load Page
+- Expected Result: Styling and formating is correct
+- Actual Result:  Styling and formating is correct
+- Status: Pass
+- Dependencies: Weather API backend
+
 ## Test Case 5: Forecast - Tips
 - Event:
     - Test the api
@@ -173,6 +180,12 @@
 - Status: Fail
 - Fix: Data Parsing
 
+- Event:
+    - Run Forcast function after last fix
+- Expencted Result: Data is displayed to the website as normal
+- Actual Result:  Data is displayed to the website as normal
+- Status: Pass
+
 ## Test Case 7: Air Quality Dashbaord
 - Event:
     - Load the page
@@ -187,3 +200,9 @@
 - Actual Result: JSON parsing failed: Expecting value: line 1 column 1 (char 0)
 - Status: Fail
 - Fix: Fix data parsing
+
+- Event:
+    - Load the page
+- Expected Result: Page loads with api data displayed
+- Actual Result: Page loads with api data displayed
+- Status: Pass
