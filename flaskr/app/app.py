@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 from db import set_up_db,  add_user
 from auth import sign_in
 from validation import is_not_empty, is_valid_email, is_secure_password
-from weather import  get_weather_data ,  get_air_ai_tips
+from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category
 
 
 app = Flask(__name__, static_folder='../static')
@@ -11,15 +11,7 @@ app = Flask(__name__, static_folder='../static')
 
 app.secret_key = 'secret_key' 
 
-def get_aqi_category(aqi):
-    """Categorize AQI value into quality groups."""
-    aqi = int(aqi)
-    if aqi <= 50: return 'good'
-    elif aqi <= 100: return 'moderate'
-    elif aqi <= 150: return 'unhealthy-sensitive'
-    elif aqi <= 200: return 'unhealthy'
-    elif aqi <= 300: return 'very-unhealthy'
-    else: return 'hazardous'
+
 
 @app.route("/")
 def index():
@@ -107,9 +99,6 @@ def dashboard():
         if 'AQI' in ai_data:
             dashboard_data['category'] = get_aqi_category(int(ai_data['AQI']))
             
-    except json.JSONDecodeError as e:
-        flash(f"JSON parsing failed: {str(e)}", "error")
-        dashboard_data['error'] = "Failed to parse AI response"
     except Exception as e:
         flash(f"Dashboard error: {str(e)}", "error")
         dashboard_data['error'] = "Unable to load air quality data"
