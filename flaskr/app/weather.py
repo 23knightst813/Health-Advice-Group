@@ -136,7 +136,13 @@ def get_air_ai_tips():
 
         # Generate and validate response
         response = model.generate_content(prompt)
-        response_data = json.loads(response.text.strip())
+        response_text = response.text.strip()
+
+        # Ensure the response is in the expected JSON format
+        if response_text.startswith("```json"):
+            response_text = response_text[7:-3].strip()
+
+        response_data = json.loads(response_text)
 
         # Validate response structure
         if not all(key in response_data for key in response_template):
@@ -150,8 +156,6 @@ def get_air_ai_tips():
     except Exception as e:
         flash(f"Error generating tips: {str(e)}", "error")
         return {"error": "Unable to generate recommendations at this time"}
-
-
 
 
 def get_weather_conditions():
