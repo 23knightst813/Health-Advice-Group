@@ -107,6 +107,9 @@ def dashboard():
         if 'AQI' in ai_data:
             dashboard_data['category'] = get_aqi_category(int(ai_data['AQI']))
             
+    except json.JSONDecodeError as e:
+        flash(f"JSON parsing failed: {str(e)}", "error")
+        dashboard_data['error'] = "Failed to parse AI response"
     except Exception as e:
         flash(f"Dashboard error: {str(e)}", "error")
         dashboard_data['error'] = "Unable to load air quality data"
