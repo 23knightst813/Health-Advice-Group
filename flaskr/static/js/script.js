@@ -82,3 +82,16 @@ updateDayCycleImage();
 
 // Update the image every minute
 setInterval(updateDayCycleImage, 60000);
+
+// Auto-hide flash messages
+document.addEventListener('DOMContentLoaded', function() {
+    const flashes = document.querySelectorAll('.flashes li');
+    flashes.forEach(flash => {
+        setTimeout(() => {
+            flash.style.opacity = '0';
+            setTimeout(() => {
+                flash.remove();
+            }, 300); 
+        }, 3000);
+    });
+});

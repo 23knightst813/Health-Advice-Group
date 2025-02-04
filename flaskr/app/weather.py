@@ -28,6 +28,15 @@ try:
 except ValueError as e:
     flash(f"Error loading Generative AI API: {str(e)}", "error")
 
+def get_aqi_category(aqi):
+    """Categorize AQI value into quality groups."""
+    aqi = int(aqi)
+    if aqi <= 50: return 'great'
+    elif aqi <= 100: return 'good'
+    elif aqi <= 150: return 'okay'
+    elif aqi <= 200: return 'bad'
+    else: return 'unhealthy'
+
 
 def get_air_quality():
     """Get air quality data for health tips."""

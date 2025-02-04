@@ -11,7 +11,7 @@
     <div class="air-quality">
         <h2>Air Quality Index</h2>
         <!-- Dynamic image based on AQI category -->
-        <img src="{{ url_for('static', filename='images/' + data.category + 'Box.png') }}" 
+        <img src="{{ url_for('static', filename=data.category + 'Box.png') }}"
              class="air-quality-box" 
              alt="Air Quality Index">
         <p class="aq-text">{{ data.category | capitalize }} (AQI {{ data.AQI }})</p>

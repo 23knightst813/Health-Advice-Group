@@ -355,6 +355,7 @@ input:not(:placeholder-shown) + label {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
+    transition: opacity 0.3s ease-out;
     align-items: center;
     backdrop-filter: blur(5px);
 }
@@ -367,6 +368,8 @@ input:not(:placeholder-shown) + label {
     width: 4px;
     height: 100%;
     border-radius: 4px 0 0 4px;
+    transition: opacity 0.3s ease-out;
+
 }
 
 
@@ -405,5 +408,4 @@ input:not(:placeholder-shown) + label {
         opacity: 1;
     }
 }
-
 
