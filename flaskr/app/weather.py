@@ -209,7 +209,7 @@ def get_air_ai_tips():
             try:
                 with conn:
                     cursor = conn.cursor()
-                    cursor.execute("SELECT conditions FROM users WHERE id = ?", (user_id,))
+                    cursor.execute("SELECT crd FROM users WHERE id = ?", (user_id,))
                     result = cursor.fetchone()
                     conditions = result[0] if result else None
             finally:
