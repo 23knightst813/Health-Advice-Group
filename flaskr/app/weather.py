@@ -4,9 +4,10 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 import json
+import sqlite3
 
 from auth import get_user_id_by_email
-from db import get_db_connection
+
 
 
 # Load environment variables
@@ -27,6 +28,79 @@ try:
     
 except ValueError as e:
     flash(f"Error loading Generative AI API: {str(e)}", "error")
+
+
+def get_ai_assesment_tips():
+    # Get assesment from database
+    user_id = get_user_id_by_email()
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM risk_assessments WHERE user_id = ?", (user_id,)) 
+    assessment_data = cursor.fetchone()
+    conn.close()
+
+    # Get weather data
+    air_quality = get_air_quality()
+
+    # Get AI response with simplified prompt
+    prompt = (
+        f"Conduct a professional risk assessment of a residential property, evaluating potential hazards related to weather, environmental factors, and health concerns. "
+        f"Assess risks such as flooding, extreme temperatures, mold growth, and air quality. "
+        f"Include considerations for allergies, such as pollen levels (hay fever risk), dust mites, pet dander, and potential indoor pollutants. "
+        f"Provide a detailed analysis with mitigation strategies to improve safety and livability. "
+        f"Assessment Data: {assessment_data} "
+        f"Air Quality: {air_quality} "
+        f"### Requirements: "
+        f"1. Identify at least 5 specific hazards or risks. "
+        f"2. Provide detailed mitigation strategies for each risk. "
+        f"3. If necessary, recommend a professional assessment from a health advisory group (the same website this is hosted on). "
+        f"4. YOU MUST FOCUS ON THE USERS HOUSE"
+        f"4. Respond in **valid JSON format**. "
+        f"Return a 1 JSON array of the  1 breakdown dont include multiple tips just 1 and tip is just placeholder its shoudl be more desctiobtion your not here to give tips your here to give a resk assesment in this exact format:\n"
+        f"[{{\n"
+        f"   \"title\": \"Risk Title\",\n"
+        f"   \"tip\": \"Detailed mitigation advice\"\n"
+        f"}}]\n\n"
+        f"Each tip should identify a specific risk and provide detailed mitigation strategy."
+    )
+
+    try:
+        response = model.generate_content(prompt)
+        response_text = response.text.strip()
+
+        # Remove markdown formatting if present
+        if response_text.startswith("```"):
+            response_text = response_text.split("```")[1]
+            if response_text.startswith("json"):
+                response_text = response_text[4:].strip()
+
+        # Parse JSON and ensure it's a list
+        response_data = json.loads(response_text)
+        if isinstance(response_data, dict):
+            response_data = [response_data]
+
+        # Validate and clean each tip
+        validated_tips = []
+        for tip in response_data:
+            if isinstance(tip, dict) and 'title' in tip and 'tip' in tip:
+                validated_tips.append({
+                    'title': str(tip['title']),
+                    'tip': str(tip['tip'])
+                })
+
+        return validated_tips or [{
+            'title': 'No risks identified',
+            'tip': 'Unable to analyze data at this time.'
+        }]
+    
+    except Exception as e:
+        flash(f"Error generating AI tips: {str(e)}", "error")
+        return [{
+            'title': 'Error',
+            'tip': 'Unable to generate assessment at this time.'
+        }]
+
+
 
 def get_aqi_category(aqi):
     """Categorize AQI value into quality groups."""
@@ -110,7 +184,7 @@ def get_air_ai_tips():
 
         # Get health conditions if user is logged in
         if user_id:
-            conn = get_db_connection()
+            conn = sqlite3.connect('Health.db')
             try:
                 with conn:
                     cursor = conn.cursor()
@@ -228,7 +302,7 @@ def get_ai_tips():
         flash(f"Not Signed In", "warning")
         conditions = "None"
     else:
-        conn = get_db_connection()
+        conn = sqlite3.connect('Health.db')
         cursor = conn.cursor()
         cursor.execute("SELECT crd FROM users WHERE id = ?", (user_id,))
         conditions = cursor.fetchone()

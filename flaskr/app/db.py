@@ -33,6 +33,22 @@ def set_up_db():
         FOREIGN KEY (user_id) REFERENCES users (id)
     )
     ''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS bookings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        assessment_id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        address TEXT NOT NULL,
+        date TEXT NOT NULL,
+        time TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (assessment_id) REFERENCES risk_assessments (id)
+    )
+    ''')
     
     conn.commit()
     conn.close()
@@ -61,5 +77,25 @@ def save_risk_assessment(user_id ,postcode, indoor_temp, indoor_humidity, smoke_
         INSERT INTO risk_assessments (user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     ''', (user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type))
+    conn.commit()
+    conn.close()
+
+def get_latest_assessment_id(user_id):
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id FROM risk_assessments WHERE user_id = ? ORDER BY created_at DESC LIMIT 1
+    ''', (user_id,))
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+def  save_booking(user_id ,assessment_id, name, email, phone, address, date, time):
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO bookings (user_id, assessment_id, name, email, phone, address, date, time)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id ,assessment_id, name, email, phone, address, date, time))
     conn.commit()
     conn.close()

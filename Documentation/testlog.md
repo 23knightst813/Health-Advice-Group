@@ -212,5 +212,12 @@
     - SUmbiting the form
 - Expected Result: The form is saved to the database
 - Actual Result: ImportError: cannot import name 'get_db_connection' from partially initialized module 'db' (most likely due to a circular import) (n:\Task 2\flaskr\app\db.py)
-- Status Pass: No error
+- Status Pass: Fail
 - Fix: Remove the get_db_connection function and replace the uses with  sqlite3.connect('Health.db')
+
+- Evvent:
+    - click ai risk assesment
+- Expected Result: ai assessment is displayed correctly
+- Actual Result: ImportError: Data parsing error
+status: Fail
+- Fix: Add more data manipulations 

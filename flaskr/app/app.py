@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, session , url_for
 
-from db import set_up_db,  add_user, save_risk_assessment
+from db import set_up_db,  add_user, save_risk_assessment,  get_latest_assessment_id, save_booking
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
-from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category
+from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category, get_ai_assesment_tips
 
 
 app = Flask(__name__, static_folder='../static')
@@ -123,7 +123,7 @@ def risk_assessment():
                 flash("All fields are required", "error")
                 return redirect(url_for("dashboard"))
             
-            user_id = get_user_id_by_email(session["email"])
+            user_id = get_user_id_by_email()
             # Save data to database
             save_risk_assessment(user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
 
@@ -135,14 +135,39 @@ def risk_assessment():
 
         return render_template("risk_assessment.html")
 
-@app.route("/ai_assessment")
+@app.route("/ai_assessment", methods=["GET", "POST"])
 def ai_assessment():
-    return render_template("ai_assessment.html")
+    ai_tips = get_ai_assesment_tips()
+    return render_template("ai_assessment.html", ai_tips=ai_tips)
 
-@app.route("/assessment_booking")
+@app.route("/assessment_booking", methods=["GET", "POST"])
 def assessment_booking():
+    if request.method == "POST":
+        # Get form data
+        name = request.form.get("name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        address = request.form.get("address")
+        date = request.form.get("date")
+        time = request.form.get("time")
+
+        user_id = get_user_id_by_email()
+
+        assessment_id = get_latest_assessment_id(user_id)
+
+        if not all([name, email, phone, address, date, time]):
+            flash("All fields are required", "error")
+            return redirect(url_for("assessment_booking"))
+
+        # Save booking data to the database (assuming a function save_booking exists)
+        save_booking(user_id ,assessment_id, name, email, phone, address, date, time)
+
+        flash("Assessment booked successfully!", "success")
+        return redirect(url_for("index"))
+            
     return render_template("assessment_booking.html")
+
 
 if __name__ == "__main__":
     set_up_db()
-    app.run(debug=True)
+    app.run(debug=True) 
