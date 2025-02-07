@@ -15,21 +15,31 @@ app.secret_key = 'secret_key'
 
 @app.route("/")
 def index():
+    """
+    Render the home page of the application.
+    """
     return render_template('index.html')
 
 @app.route("/logout")
 def logout():
+    """
+    Clear the user session and redirect to the home page.
+    """
     session.clear()
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Handle user registration. Validate input, check for existing account, and add new user to the database.
+    """
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
         password2 = request.form["password2"]
         CRD = request.form["CRD"]
 
+        # Validate input fields
         if not all([is_not_empty(email), is_not_empty(password)]):
             flash("All fields are required", "error")
             return redirect("/register")
@@ -49,6 +59,7 @@ def register():
             )
             return redirect("/register")
 
+        # Add user to the database
         if not add_user(email, password, CRD):
             flash("Account already exists", "error")
             return redirect("/register")
@@ -60,6 +71,9 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Handle user login. Validate input and authenticate user.
+    """
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
@@ -69,7 +83,9 @@ def login():
 
 @app.route("/forecast")
 def forecast():
-    """Flask route for weather forecast page."""
+    """
+    Render the weather forecast page with data.
+    """
     data = get_weather_data()
 
     if not data:
@@ -80,7 +96,9 @@ def forecast():
 
 @app.route("/dashboard")
 def dashboard():
-    """Enhanced dashboard route with dynamic data handling."""
+    """
+    Render the dashboard page with air quality data and recommendations.
+    """
     dashboard_data = {
         'AQI': '',
         'summary': 'Data not available',
@@ -107,41 +125,50 @@ def dashboard():
 
 @app.route("/risk_assessment", methods=["GET", "POST"])
 def risk_assessment():
-        if "email" not in session:
-            flash("You must be signed in to perform a risk assessment", "error")
-            return redirect(url_for("login"))
+    """
+    Handle risk assessment form submission. Save data to the database and redirect based on assessment type.
+    """
+    if "email" not in session:
+        flash("You must be signed in to perform a risk assessment", "error")
+        return redirect(url_for("login"))
 
-        if request.method == "POST":
-            postcode = request.form.get("postcode")
-            indoor_temp = request.form.get("indoor_temp")
-            indoor_humidity = request.form.get("indoor_humidity")
-            smoke_detectors = request.form.get("smoke_detectors")
-            co_alarms = request.form.get("co_alarms")
-            assessment_type = request.form.get("assessment_type")
+    if request.method == "POST":
+        postcode = request.form.get("postcode")
+        indoor_temp = request.form.get("indoor_temp")
+        indoor_humidity = request.form.get("indoor_humidity")
+        smoke_detectors = request.form.get("smoke_detectors")
+        co_alarms = request.form.get("co_alarms")
+        assessment_type = request.form.get("assessment_type")
 
-            if not all([postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type]):
-                flash("All fields are required", "error")
-                return redirect(url_for("dashboard"))
-            
-            user_id = get_user_id_by_email()
-            # Save data to database
-            save_risk_assessment(user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
+        if not all([postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type]):
+            flash("All fields are required", "error")
+            return redirect(url_for("dashboard"))
+        
+        user_id = get_user_id_by_email()
+        # Save data to database
+        save_risk_assessment(user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
 
-            flash("Risk Assessment submitted!", "success")
-            if assessment_type == "human":
-                return redirect("/assessment_booking")
-            if assessment_type == "ai":
-                return redirect("/ai_assessment")
+        flash("Risk Assessment submitted!", "success")
+        if assessment_type == "human":
+            return redirect("/assessment_booking")
+        if assessment_type == "ai":
+            return redirect("/ai_assessment")
 
-        return render_template("risk_assessment.html")
+    return render_template("risk_assessment.html")
 
 @app.route("/ai_assessment", methods=["GET", "POST"])
 def ai_assessment():
+    """
+    Render the AI-powered risk assessment page with AI-generated tips.
+    """
     ai_tips = get_ai_assesment_tips()
     return render_template("ai_assessment.html", ai_tips=ai_tips)
 
 @app.route("/assessment_booking", methods=["GET", "POST"])
 def assessment_booking():
+    """
+    Handle assessment booking form submission. Save booking data to the database.
+    """
     if request.method == "POST":
         # Get form data
         name = request.form.get("name")

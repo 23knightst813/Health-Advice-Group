@@ -2,14 +2,18 @@
 {% block content %}
 
 <body>
+    <!-- Title of the risk assessment page -->
     <div style="display: flex; justify-content: center; margin-top: -50px;">
         <p class="title">risk assessment</p>
     </div>
 
+    <!-- Container for the risk assessment form -->
     <div class="container" style="margin-top: -170px;">
 
+        <!-- Risk assessment form for collecting user data -->
         <form action="/risk_assessment" method="POST" class="assessment-form" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
     
+            <!-- Section for environmental factors -->
             <h3>Environmental Factors</h3>
             <div class="input-group">
                 <input type="text" id="postcode" name="postcode" placeholder="Enter Your Post Code" required />
@@ -23,6 +27,7 @@
                 <input type="number" id="indoor_humidity" name="indoor_humidity" placeholder="Indoor Humidity (%)" required />
             </div>
     
+            <!-- Section for home safety factors -->
             <h3>Home Safety</h3>
             <div class="input-group">
                 <input type="number" id="smoke_detectors" name="smoke_detectors" placeholder="Smoke Detectors" required />
@@ -32,6 +37,7 @@
                 <input type="number" id="co_alarms" name="co_alarms" placeholder="Carbon Monoxide Alarms" required />
             </div>
     
+            <!-- Section for selecting the type of assessment -->
             <h3>Assessment Type</h3>
             <div class="input-group" style="display: flex; gap: 20px;">
                 <button type="submit" name="assessment_type" value="ai" class="btn">AI-Powered Assessment</button>
@@ -41,7 +47,6 @@
     </div>
     </form>
 </div>
-
 
 </body>
 

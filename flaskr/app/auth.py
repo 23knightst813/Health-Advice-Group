@@ -2,8 +2,17 @@ from flask import session, flash, redirect
 import sqlite3
 from werkzeug.security import check_password_hash
 
-
 def sign_in(email, password):
+    """
+    Authenticate a user by checking their email and password against the database.
+    
+    Args:
+        email (str): The email address of the user.
+        password (str): The password provided by the user.
+    
+    Returns:
+        redirect: Redirects to the appropriate page based on authentication success.
+    """
     conn = sqlite3.connect('Health.db')
     cur = conn.cursor()
     query = """SELECT email, password_hash, is_admin FROM users WHERE email = ?"""
@@ -27,10 +36,13 @@ def sign_in(email, password):
     flash("Invalid email or password", "error")
     return redirect("/login")
 
-
-
-
 def get_user_id_by_email():
+    """
+    Retrieve the user ID based on the email stored in the session.
+    
+    Returns:
+        int: The user ID if found, otherwise None.
+    """
     try:
         email = session.get("email")
         if not email:

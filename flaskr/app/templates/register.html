@@ -8,20 +8,25 @@
     <div class="welcome-page-head">
         <p>Welcome</p>
 
+        <!-- Registration form for new users -->
         <form class="register-form" action="/register" method="post">
             
+            <!-- Input field for user's email -->
             <div class="input-group">
                 <input type="email" id="email" placeholder="Email" name="email" required />
             </div>
 
+            <!-- Input field for user's password -->
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password" name="password" required />
             </div>
 
+            <!-- Input field for confirming user's password -->
             <div class="input-group">
                 <input type="password" id="password2" placeholder="Password2" name="password2" required />
             </div>
 
+            <!-- Dropdown for selecting user's chronic respiratory disease (CRD) -->
             <div class="drop-group">
                 <select id="CRD" name="CRD" required>
                     <option value="" disabled selected>CRD's</option>
@@ -34,19 +39,19 @@
                 </select>
             </div>
 
+            <!-- Submit button for registration -->
             <button type="submit" class="btn login-btn">Register</button>
+            
+            <!-- Social login buttons for Google and Discord -->
             <div class="social-buttons">
                 <a href="/google" class="btn login-btn">Google</a>
                 <a href="/discord" class="btn login-btn">Discord</a>
             </div>
+            
+            <!-- Link to the login page -->
             <a href="/login" class="btn login-btn" style="margin-top: 0;">Login</a>
         </form>
-
-
-
     </div>
 </div>
-
-
 
 {% endblock %}

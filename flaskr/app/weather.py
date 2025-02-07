@@ -8,8 +8,6 @@ import sqlite3
 
 from auth import get_user_id_by_email
 
-
-
 # Load environment variables
 try:
     load_dotenv()
@@ -31,7 +29,13 @@ except ValueError as e:
 
 
 def get_ai_assesment_tips():
-    # Get assesment from database
+    """
+    Generate AI-powered risk assessment tips based on user data and air quality.
+
+    Returns:
+        list: A list of dictionaries containing risk titles and detailed mitigation advice.
+    """
+    # Get assessment from database
     user_id = get_user_id_by_email()
     conn = sqlite3.connect('Health.db')
     cursor = conn.cursor()
@@ -72,7 +76,7 @@ def get_ai_assesment_tips():
         if response_text.startswith("```"):
             response_text = response_text.split("```")[1]
             if response_text.startswith("json"):
-                response_text = response_text[4:].strip()
+                response_text = response_text[4:].trip()
 
         # Parse JSON and ensure it's a list
         response_data = json.loads(response_text)
@@ -101,9 +105,16 @@ def get_ai_assesment_tips():
         }]
 
 
-
 def get_aqi_category(aqi):
-    """Categorize AQI value into quality groups."""
+    """
+    Categorize AQI value into quality groups.
+
+    Args:
+        aqi (int): The Air Quality Index value.
+
+    Returns:
+        str: The category of air quality.
+    """
     aqi = int(aqi)
     if aqi <= 50: return 'Moderate'
     elif aqi <= 100: return 'good'
@@ -113,7 +124,12 @@ def get_aqi_category(aqi):
 
 
 def get_air_quality():
-    """Get air quality data for health tips."""
+    """
+    Get air quality data for health tips.
+
+    Returns:
+        dict: A dictionary containing air quality data.
+    """
     city_name = get_location_from_ip()
     coordinates = get_coordinates(city_name)
 
@@ -162,7 +178,12 @@ def get_air_quality():
 
 
 def get_air_ai_tips():
-    """Generate air quality insights and recommendations based on user health conditions."""
+    """
+    Generate air quality insights and recommendations based on user health conditions.
+
+    Returns:
+        dict: A dictionary containing AQI, summary, and recommendations.
+    """
     response_template = {
         "AQI": "",
         "summary": "",
@@ -242,7 +263,12 @@ def get_air_ai_tips():
 
 
 def get_weather_conditions():
-    """Get weather conditions for health tips."""
+    """
+    Get weather conditions for health tips.
+
+    Returns:
+        dict: A dictionary containing current and average weather conditions.
+    """
     city_name = get_location_from_ip()
     if not city_name:
         return None
@@ -292,9 +318,13 @@ def get_weather_conditions():
     }
 
 def get_ai_tips():
-    """Generate AI-generated health tips using Generative AI model."""
-    
-    #Get Conditions From Database
+    """
+    Generate AI-generated health tips using Generative AI model.
+
+    Returns:
+        str: AI-generated health tips in JSON format.
+    """
+    # Get Conditions From Database
 
     try:
         user_id = get_user_id_by_email()
@@ -343,7 +373,12 @@ def get_ai_tips():
         return None
 
 def get_location_from_ip():
-    """Get user's location based on IP address."""
+    """
+    Get user's location based on IP address.
+
+    Returns:
+        str: The city name based on the user's IP address.
+    """
     try:
         ip_response = requests.get("https://ipinfo.io/json")
         ip_response.raise_for_status()
@@ -359,7 +394,15 @@ def get_location_from_ip():
         return None
 
 def get_coordinates(city_name):
-    """Convert city name to latitude and longitude."""
+    """
+    Convert city name to latitude and longitude.
+
+    Args:
+        city_name (str): The name of the city.
+
+    Returns:
+        tuple: A tuple containing latitude and longitude.
+    """
     try:
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}"
         geo_response = requests.get(geo_url)
@@ -377,7 +420,16 @@ def get_coordinates(city_name):
         return None
 
 def fetch_weather_forecast(lat, lon):
-    """Fetch weather forecast for given coordinates."""
+    """
+    Fetch weather forecast for given coordinates.
+
+    Args:
+        lat (float): Latitude of the location.
+        lon (float): Longitude of the location.
+
+    Returns:
+        dict: A dictionary containing weather forecast data.
+    """
     try:
         weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto"
         weather_response = requests.get(weather_url)
@@ -388,7 +440,17 @@ def fetch_weather_forecast(lat, lon):
         return None
 
 def format_forecast_data(city_name, weather_data, tips):
-    """Format the weather forecast data."""
+    """
+    Format the weather forecast data.
+
+    Args:
+        city_name (str): The name of the city.
+        weather_data (dict): The raw weather data.
+        tips (list): A list of health tips.
+
+    Returns:
+        dict: A dictionary containing formatted weather forecast data.
+    """
     return {
         "location": city_name.capitalize(),
         "forecast": [
@@ -402,7 +464,12 @@ def format_forecast_data(city_name, weather_data, tips):
     }
 
 def raw_weather():
-    """Fetch raw weather data"""
+    """
+    Fetch raw weather data.
+
+    Returns:
+        tuple: A tuple containing the city name and raw weather data.
+    """
     city_name = get_location_from_ip()
     if not city_name:
         return None
@@ -419,7 +486,12 @@ def raw_weather():
     return city_name, weather_data
 
 def get_weather_data():
-    """Main function to fetch and format weather data."""
+    """
+    Main function to fetch and format weather data.
+
+    Returns:
+        dict: A dictionary containing formatted weather data and health tips.
+    """
     try:
         # Get weather data
         result = raw_weather()
