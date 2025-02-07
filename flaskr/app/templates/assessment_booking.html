@@ -2,31 +2,40 @@
 {% block content %}
 
 <body>
+    <!-- Title of the assessment booking page -->
     <div style="display: flex; justify-content: center; margin-top: -50px;">
         <p class="title">assessment booking</p>
     </div>
 
+    <!-- Container for the booking form -->
     <div class="container" style="margin-top: -170px;">
         <form action="/assessment_booking" method="POST" class="booking-form" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
             <h3>Book Your Assessment</h3>
+            <!-- Input field for the user's name -->
             <div class="input-group">
                 <input type="text" id="name" name="name" placeholder="Enter Your Name" required />
             </div>
+            <!-- Input field for the user's email -->
             <div class="input-group">
                 <input type="email" id="email" name="email" placeholder="Enter Your Email" required />
             </div>
+            <!-- Input field for the user's phone number -->
             <div class="input-group">
                 <input type="text" id="phone" name="phone" placeholder="Enter Your Phone Number" required />
             </div>
+            <!-- Input field for the user's address -->
             <div class="input-group">
                 <input type="text" id="address" name="address" placeholder="Enter Your Address" required />
             </div>
+            <!-- Input field for the booking date -->
             <div class="input-group">
                 <input type="date" id="date" name="date" placeholder="Select Date" required />
             </div>
+            <!-- Input field for the booking time -->
             <div class="input-group">
                 <input type="time" id="time" name="time" placeholder="Select Time" required />
             </div>
+            <!-- Submit button to book the assessment -->
             <button type="submit" class="btn">Book Assessment</button>
         </form>
     </div>

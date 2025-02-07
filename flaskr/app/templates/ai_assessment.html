@@ -2,10 +2,13 @@
 
 {% block content %}
 <body>
+    <!-- Title of the AI-powered risk assessment page -->
     <p class="title" style="display: flex; justify-content: center; margin-top: -50px;">ai-powered risk assessment</p>
+    
+    <!-- Container for the AI-generated tips -->
     <div class="container">
-
         <div class="ai-tips">
+            <!-- Loop through each AI-generated tip and display it -->
             {% for tip in ai_tips %}
                 <div class="tip">
                     <h3>{{ tip.title }}</h3>
