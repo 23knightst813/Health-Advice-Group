@@ -8,27 +8,31 @@
     <div class="login-page-head">
         <p>Welcome Back</p>
 
+        <!-- Login form for user authentication -->
         <form class="register-form" action="/login" method="post">
 
+            <!-- Input field for user's email -->
             <div class="input-group">
                 <input type="email" id="email" placeholder="Email" name="email" required />
             </div>
 
+            <!-- Input field for user's password -->
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password" name="password" required />
             </div>
 
+            <!-- Submit button for login -->
             <button type="submit" class="btn login-btn">Login</button>
+            
+            <!-- Social login buttons for Google and Discord -->
             <div class="social-buttons">
                 <a href="/google" class="btn login-btn">Google</a>
                 <a href="/discord" class="btn login-btn">Discord</a>
             </div>
+            
+            <!-- Link to the registration page -->
             <a href="/register" class="btn login-btn" style="margin-top: 0;">Register</a>
         </form>
-
-
-
-
     </div>
 </div>
 

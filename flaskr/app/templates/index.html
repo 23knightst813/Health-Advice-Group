@@ -3,12 +3,15 @@
 {% block content %}
 
 <body>
+    <!-- Container for the main content of the home page -->
     <div class="container">
+        <!-- Description section providing an overview of the website's purpose -->
         <div class="desc">
             <p> Expert guidance on environmental health issues, offering weather-related health advice, air quality
                 monitoring, and personalised tips to help individuals manage seasonal allergies, extreme temperatures,
                 and home environment </p>
         </div>
+        <!-- Image section displaying an artistic representation related to the website's theme -->
         <img class="indexArt" src="{{ url_for('static', filename='indexArt.png') }}" alt="art" style="pointer-events: none;user-select: none;">
     </div>
 </body>

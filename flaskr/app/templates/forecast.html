@@ -2,11 +2,15 @@
 
 {% block content %}
 <body>
+    <!-- Page wrapper to center the content vertically and horizontally -->
     <div class="page-wrapper">
         <div class="content-container">
+            <!-- Display the location title -->
             <p class="title" style="text-transform: lowercase;">{{ data.location }}</p>
             <div class="container">
+                <!-- Forecast cards section -->
                 <div class="forecast-cards">
+                    <!-- Loop through each day's forecast and display it -->
                     {% for day in data.forecast %}
                         <div class="forecast-card {% if day.day == 'Today' %}highlight{% endif %}">
                             <p>{{ day.day }}</p>
@@ -14,7 +18,9 @@
                         </div>
                     {% endfor %}
                 </div>
+                <!-- Health tips section -->
                 <div class="health-tips">
+                    <!-- Loop through each health tip and display it -->
                     {% for tip in data.health_tips %}
                         <h3>{{ tip.title }}</h3>
                         <p>{{ tip.tip }}</p>
@@ -25,6 +31,7 @@
     </div>
 
 <style>
+/* Page wrapper styles */
 .page-wrapper {
     min-height: 100vh;
     padding: 20px;
@@ -33,6 +40,7 @@
     align-items: center;
 }
 
+/* Content container styles */
 .content-container {
     display: flex;
     flex-direction: column;
@@ -40,14 +48,15 @@
     gap: 10px;
 }
 
+/* Forecast header styles */
 .forecast-header {
     font-family: 'Nixie One', cursive;
     font-size: 24px;
     text-align: center;
     margin-top: 80px;
-
 }
 
+/* Container styles */
 .container {
     width: 100%;
     max-width: 900px;
@@ -57,12 +66,14 @@
     gap: 40px;
 }
 
+/* Forecast cards styles */
 .forecast-cards {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
 }
 
+/* Individual forecast card styles */
 .forecast-card {
     background: #222;
     color: white;
@@ -75,16 +86,19 @@
     text-align: center;
 }
 
+/* Hover effect for forecast cards */
 .forecast-card:hover {
     background: black;
     transform: translateY(-2px);
 }
 
+/* Highlight style for today's forecast card */
 .forecast-card.highlight {
     width: 150px;
     background: black;
 }
 
+/* Health tips section styles */
 .health-tips {
     width: 100%;
     font-family: 'Nixie One', cursive;
@@ -96,18 +110,20 @@
     border-radius: 10px;
 }
 
+/* Health tips title styles */
 .health-tips h3 {
     font-family: 'Major Mono Display', serif;
     text-transform: lowercase;
     margin-bottom: 10px;
     margin-top: 20px;
-    
 }
 
+/* First health tip title style */
 .health-tips h3:first-child {
     margin-top: 0;
 }
 
+/* Health tips paragraph styles */
 .health-tips p {
     line-height: 1.6;
     margin-bottom: 20px;

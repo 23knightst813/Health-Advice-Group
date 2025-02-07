@@ -36,6 +36,9 @@ const minutesArray = [
     "Fifty Five", "Fifty Six", "Fifty Seven", "Fifty Eight", "Fifty Nine"
 ];
 
+/**
+ * Update the clock display with the current time in both digital and word formats.
+ */
 function updateClock() {
     const now = new Date();
     const hours = now.getHours();
@@ -62,6 +65,10 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+/**
+ * Update the day cycle image based on the current time.
+ * Displays a sun image during the day and a moon image during the night.
+ */
 function updateDayCycleImage() {
     var now = new Date();
     var hours = now.getHours();
@@ -81,7 +88,10 @@ updateDayCycleImage();
 // Update the image every minute
 setInterval(updateDayCycleImage, 60000);
 
-// Auto-hide flash messages
+/**
+ * Automatically hide flash messages after a few seconds.
+ * Flash messages are used to display notifications to the user.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     const flashes = document.querySelectorAll('.flashes li');
     flashes.forEach(flash => {
