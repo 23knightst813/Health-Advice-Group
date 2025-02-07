@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session , url_for
 
-from db import set_up_db,  add_user
-from auth import sign_in
+from db import set_up_db,  add_user, save_risk_assessment
+from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
 from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category
 
@@ -105,6 +105,43 @@ def dashboard():
 
     return render_template("dashboard.html", data=dashboard_data)
 
+@app.route("/risk_assessment", methods=["GET", "POST"])
+def risk_assessment():
+        if "email" not in session:
+            flash("You must be signed in to perform a risk assessment", "error")
+            return redirect(url_for("login"))
+
+        if request.method == "POST":
+            postcode = request.form.get("postcode")
+            indoor_temp = request.form.get("indoor_temp")
+            indoor_humidity = request.form.get("indoor_humidity")
+            smoke_detectors = request.form.get("smoke_detectors")
+            co_alarms = request.form.get("co_alarms")
+            assessment_type = request.form.get("assessment_type")
+
+            if not all([postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type]):
+                flash("All fields are required", "error")
+                return redirect(url_for("dashboard"))
+            
+            user_id = get_user_id_by_email(session["email"])
+            # Save data to database
+            save_risk_assessment(user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
+
+            flash("Risk Assessment submitted!", "success")
+            if assessment_type == "human":
+                return redirect("/assessment_booking")
+            if assessment_type == "ai":
+                return redirect("/ai_assessment")
+
+        return render_template("risk_assessment.html")
+
+@app.route("/ai_assessment")
+def ai_assessment():
+    return render_template("ai_assessment.html")
+
+@app.route("/assessment_booking")
+def assessment_booking():
+    return render_template("assessment_booking.html")
 
 if __name__ == "__main__":
     set_up_db()

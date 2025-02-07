@@ -1,12 +1,11 @@
 import sqlite3
 from werkzeug.security import generate_password_hash
 
-def get_db_connection():
-    # Return a connection to the SQLite database 'dojo.db'
-    return sqlite3.connect('Health.db')
+
+
 
 def set_up_db():
-    conn = get_db_connection()
+    conn = sqlite3.connect('Health.db')
     cursor = conn.cursor()
     
     cursor.execute('''
@@ -19,12 +18,27 @@ def set_up_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
+    
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS risk_assessments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        postcode TEXT NOT NULL,
+        indoor_temp REAL NOT NULL,
+        indoor_humidity REAL NOT NULL,
+        smoke_detectors INTEGER NOT NULL,
+        co_alarms INTEGER NOT NULL,
+        assessment_type TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    )
+    ''')
+    
     conn.commit()
     conn.close()
 
-
 def add_user(email, password, CRD):
-    conn = get_db_connection()
+    conn = sqlite3.connect('Health.db')
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
     try:
@@ -40,4 +54,12 @@ def add_user(email, password, CRD):
     finally:
         conn.close()
 
-
+def save_risk_assessment(user_id ,postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type):
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO risk_assessments (user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type))
+    conn.commit()
+    conn.close()

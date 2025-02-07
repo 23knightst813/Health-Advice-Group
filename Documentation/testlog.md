@@ -206,3 +206,11 @@
 - Expected Result: Page loads with api data displayed
 - Actual Result: Page loads with api data displayed
 - Status: Pass
+
+## Test Case 8: Risk Assessment
+- Event:
+    - SUmbiting the form
+- Expected Result: The form is saved to the database
+- Actual Result: ImportError: cannot import name 'get_db_connection' from partially initialized module 'db' (most likely due to a circular import) (n:\Task 2\flaskr\app\db.py)
+- Status Pass: No error
+- Fix: Remove the get_db_connection function and replace the uses with  sqlite3.connect('Health.db')

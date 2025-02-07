@@ -1,10 +1,10 @@
 from flask import session, flash, redirect
-from db import get_db_connection
+import sqlite3
 from werkzeug.security import check_password_hash
 
 
 def sign_in(email, password):
-    conn = get_db_connection()
+    conn = sqlite3.connect('Health.db')
     cur = conn.cursor()
     query = """SELECT email, password_hash, is_admin FROM users WHERE email = ?"""
     cur.execute(query, (email,))
@@ -37,7 +37,7 @@ def get_user_id_by_email():
             flash("User not logged in", "error")
             return None
             
-        conn = get_db_connection()
+        conn = sqlite3.connect('Health.db')
         cursor = conn.cursor()
         cursor.execute('SELECT id FROM users WHERE email = ?', (email,))
         result = cursor.fetchone()
