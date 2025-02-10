@@ -195,6 +195,13 @@ def assessment_booking():
     return render_template("assessment_booking.html")
 
 
+@app.route("/tracker")
+def tracker():
+    """
+    Render the air quality tracker page.
+    """
+    return render_template("tracker.html")
+
 if __name__ == "__main__":
     set_up_db()
     app.run(debug=True) 
