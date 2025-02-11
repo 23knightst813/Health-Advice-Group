@@ -209,7 +209,7 @@
 
 ## Test Case 8: Risk Assessment
 - Event:
-    - SUmbiting the form
+    - Sumbiting the form
 - Expected Result: The form is saved to the database
 - Actual Result: ImportError: cannot import name 'get_db_connection' from partially initialized module 'db' (most likely due to a circular import) (n:\Task 2\flaskr\app\db.py)
 - Status Pass: Fail
@@ -219,5 +219,14 @@
     - click ai risk assesment
 - Expected Result: ai assessment is displayed correctly
 - Actual Result: ImportError: Data parsing error
-status: Fail
+- Status Pass: Fail
 - Fix: Add more data manipulations 
+
+## Test Case 9: Tracker
+- Event:
+    - Clicking emoji to log my symtoms
+- Expected Result: flask flash, saved to database, Symptom History updated
+- Actual Result: Nothing
+- Status Pass: Fail
+
+

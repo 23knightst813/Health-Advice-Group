@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, session , url_for
 
-from db import set_up_db,  add_user, save_risk_assessment,  get_latest_assessment_id, save_booking
+from db import set_up_db,  add_user, save_risk_assessment,  get_latest_assessment_id, save_booking, save_symptom_record, get_symptom_history_labels, get_symptom_history_data
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
-from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category, get_ai_assesment_tips
+from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category, get_ai_assesment_tips, get_air_quality, get_tacker_weather_data
 
 
 app = Flask(__name__, static_folder='../static')
@@ -195,12 +195,101 @@ def assessment_booking():
     return render_template("assessment_booking.html")
 
 
-@app.route("/tracker")
+@app.route('/tracker')
 def tracker():
     """
-    Render the air quality tracker page.
+    Handle symptom tracking functionality. Retrieves weather, air quality, and symptom history data.
     """
-    return render_template("tracker.html")
+    if "email" not in session:
+        flash("You must be signed in to use the tracker", "error")
+        return redirect(url_for("login"))
+        
+    user_id = get_user_id_by_email()
+    
+    # Get weather and air quality data
+    weather_data = get_tacker_weather_data()
+    if not weather_data:
+        flash("Unable to retrieve weather data", "error")
+        return render_template("tracker.html", data={
+            'symptom_labels': [],
+            'symptom_data': [],
+            'air_quality': {'index': 0, 'status': 'Unknown'},
+            'weather': {
+                'temperature': 0,
+                'condition': 'Unknown',
+                'humidity': 0,
+                'wind_speed': 0
+            }
+        })
+
+    air_quality_index = get_air_quality()
+    air_quality_index = air_quality_index['aqi']
+    # Get air quality category
+    aqi_category = get_aqi_category(air_quality_index)
+    
+    # Format data for template
+    data = {
+        'symptom_labels': get_symptom_history_labels(user_id),
+        'symptom_data': get_symptom_history_data(user_id),
+        'air_quality': {
+            'index': air_quality_index,
+            'status': aqi_category
+        },
+        'weather': {
+            'temperature': weather_data['temperature'],
+            'condition': weather_data['condition'],
+            'humidity': weather_data['humidity'],
+            'wind_speed': weather_data['wind_speed']
+        }
+    }
+    
+    return render_template('tracker.html',
+                         symptom_labels=data['symptom_labels'],
+                         symptom_data=data['symptom_data'],
+                         air_quality_index=data['air_quality']['index'],
+                         air_quality_status=data['air_quality']['status'],
+                         temperature=data['weather']['temperature'],
+                         condition=data['weather']['condition'],
+                         humidity=data['weather']['humidity'],
+                         wind_speed=data['weather']['wind_speed'])
+
+@app.route('/log_mood', methods=['POST'])
+def log_mood():
+    """
+    Handle mood logging from the symptom tracker.
+    """
+    if "email" not in session:
+        return {"error": "Not logged in"}, 401
+
+    mood = request.json.get('mood')
+    if mood not in ['Sad', 'Neutral', 'Happy']:
+        return {"error": "Invalid mood value"}, 400
+
+    user_id = get_user_id_by_email()
+    weather_data = get_tacker_weather_data()
+    air_quality_index = get_air_quality()
+    air_quality_index = air_quality_index['aqi']
+    # Map moods to severity levels
+    severity_map = {
+        'Sad': 1,
+        'Neutral': 3,
+        'Happy': 5
+    }
+    
+    # Save to symptom tracker table
+    save_symptom_record(
+        user_id=user_id,
+        severity=severity_map[mood],
+        mood=mood,
+        temperature=weather_data['temperature'],
+        humidity=weather_data['humidity'],
+        wind_speed=weather_data['wind_speed'],
+        weather_condition=weather_data['condition'],
+        air_quality_index=weather_data['air_quality_index'],
+        air_quality_status=get_aqi_category(weather_data['air_quality_index'])
+    )
+
+    return {"success": True}, 200
 
 if __name__ == "__main__":
     set_up_db()

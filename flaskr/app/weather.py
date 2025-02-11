@@ -123,6 +123,66 @@ def get_aqi_category(aqi):
     else: return 'Hazard'
 
 
+def get_tacker_weather_data():
+    """Fetch weather data from Open-Meteo API"""
+    
+    url = "https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": 51.2362,  # Horsham coordinates
+        "longitude": -0.3360,
+        "hourly": [
+            "temperature_2m",
+            "relative_humidity_2m", 
+            "wind_speed_10m",
+            "weather_code"
+        ],
+        "forecast_days": 1
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        # Get current hour's data (first element)
+        current_data = {
+            'temperature': data['hourly']['temperature_2m'][0],
+            'humidity': data['hourly']['relative_humidity_2m'][0],
+            'wind_speed': data['hourly']['wind_speed_10m'][0],
+            'condition': get_weather_condition(data['hourly']['weather_code'][0]),
+        }
+        
+        return current_data
+
+    except requests.RequestException as e:
+        print(f"Error fetching weather data: {e}")
+        return {}
+
+def get_weather_condition(code: int) -> str:
+    """Convert weather code to readable condition"""
+    conditions = {
+        0: "Clear sky",
+        1: "Mainly clear",
+        2: "Partly cloudy",
+        3: "Overcast",
+        45: "Foggy",
+        48: "Rime fog",
+        51: "Light drizzle",
+        53: "Moderate drizzle",
+        55: "Dense drizzle",
+        61: "Light rain",
+        63: "Moderate rain",
+        65: "Heavy rain",
+        71: "Light snow",
+        73: "Moderate snow",
+        75: "Heavy snow",
+        77: "Snow grains",
+        80: "Light rain showers",
+        81: "Moderate rain showers",
+        82: "Violent rain showers",
+    }
+    return conditions.get(code, "Unknown")
+
 def get_air_quality():
     """
     Get air quality data for health tips.
@@ -483,6 +543,7 @@ def raw_weather():
     if not weather_data:
         return None
 
+    print (city_name, weather_data)
     return city_name, weather_data
 
 def get_weather_data():
@@ -529,3 +590,4 @@ def get_weather_data():
     except Exception as e:
         flash(f"Error in get_weather_data: {str(e)}", "error")
         return None
+

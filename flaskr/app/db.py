@@ -53,6 +53,23 @@ def set_up_db():
         FOREIGN KEY (assessment_id) REFERENCES risk_assessments (id)
     )
     ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS symptom_tracker (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            severity INTEGER CHECK (severity BETWEEN 0 AND 5),
+            mood TEXT CHECK (mood IN ('Sad', 'Neutral', 'Happy')),
+            temperature REAL,
+            humidity REAL,
+            wind_speed REAL,
+            weather_condition TEXT,
+            air_quality_index INTEGER,
+            air_quality_status TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
     
     conn.commit()
     conn.close()
@@ -151,3 +168,44 @@ def save_booking(user_id, assessment_id, name, email, phone, address, date, time
     ''', (user_id, assessment_id, name, email, phone, address, date, time))
     conn.commit()
     conn.close()
+
+
+def save_symptom_record(user_id, severity, mood, temperature, humidity, wind_speed, weather_condition, air_quality_index, air_quality_status):
+    """Save a symptom tracking record to the database."""
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO symptom_tracker 
+        (user_id, severity, mood, temperature, humidity, wind_speed, weather_condition, 
+         air_quality_index, air_quality_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id, severity, mood, temperature, humidity, wind_speed, weather_condition,
+          air_quality_index, air_quality_status))
+    conn.commit()
+    conn.close()
+
+def get_symptom_history_labels(user_id):
+    """Get dates for symptom history chart."""
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT created_at FROM symptom_tracker 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC LIMIT 7
+    ''', (user_id,))
+    dates = cursor.fetchall()
+    conn.close()
+    return [date[0].split()[0] for date in dates][::-1]
+
+def get_symptom_history_data(user_id):
+    """Get severity values for symptom history chart."""
+    conn = sqlite3.connect('Health.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT severity FROM symptom_tracker 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC LIMIT 7
+    ''', (user_id,))
+    severity = cursor.fetchall()
+    conn.close()
+    return [s[0] for s in severity][::-1]

@@ -106,3 +106,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     });
 });
+
+
+function logMood(mood) {
+    fetch('/log_mood', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mood: mood })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Error logging mood: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error logging mood');
+    });
+}

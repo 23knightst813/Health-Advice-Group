@@ -21,8 +21,8 @@
     <div class="side-container" style="width: 30%; padding: 20px;">
         <h3>Air Quality Index</h3>
         <div>
-            <span>75</span>
-            <span>Moderate</span>
+            <span>{{ air_quality_index }}</span>
+            <span>{{ air_quality_status }}</span>
             <div>
                 <div style="width: 75%"></div>
             </div>
@@ -38,24 +38,24 @@
         <h3>Weather Conditions</h3>
         <div>
             <div>
-                <span>Temperature</span>
-                <span>24°C</span>
+            <span>Temperature</span>
+            <span>{{ temperature }}°C</span>
             </div>
             <div>
-                <span>Condition</span>
-                <span>Partly Cloudy</span>
+            <span>Condition</span>
+            <span>{{ condition }}</span>
             </div>
             <div>
-                <span>Humidity</span>
-                <span>65%</span>
+            <span>Humidity</span>
+            <span>{{ humidity }}%</span>
             </div>
             <div>
-                <span>Wind Speed</span>
-                <span>12 km/h</span>
+            <span>Wind Speed</span>
+            <span>{{ wind_speed }} km/h</span>
             </div>
         </div>
+        </div>
     </div>
-</div>
 
 <style>
 
@@ -119,10 +119,10 @@ const ctx = document.getElementById('symptomChart').getContext('2d');
 new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: JSON.parse('{{ symptom_labels|tojson|escapejs }}'),
         datasets: [{
             label: 'Symptom Severity',
-            data: [3, 2, 4, 3, 5, 2, 3],
+            data: JSON.parse('{{ symptom_data|tojson|escapejs }}'),
             borderColor: '#666',
             tension: 0.2,
             fill: false
@@ -148,8 +148,7 @@ new Chart(ctx, {
     }
 });
 
-function logMood(mood) {
-    console.log(`Mood logged: ${mood}`);
-}
+
+
 </script>
 {% endblock %}
