@@ -14,6 +14,9 @@ const zeroToNineWords = [
 ];
 
 const minutesArray = [
+    // 0-9 minutes
+    "Zero", "One", "Two", "Three", "Four",
+    "Five", "Six", "Seven", "Eight", "Nine",
 
     // 10-19 minutes
     "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",

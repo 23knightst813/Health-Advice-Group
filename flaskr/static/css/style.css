@@ -4,8 +4,13 @@ body {
     font-family: 'Nixie One', sans-serif;
     background-color: #f8f8f8;
 
-
  }
+
+@media (max-height: 919px) {
+    body {
+        overflow-y: scroll;
+    }
+}
 
  nav {
     font-family: 'Major Mono Display', serif;

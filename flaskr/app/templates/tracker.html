@@ -11,15 +11,14 @@
         <button onclick="logMood('Neutral')"><img src="/static/midButton.svg" alt="Neutral"></button>
         <button onclick="logMood('Happy')"><img src="/static/goodButton.svg" alt="Happy"></button>
     </div>
+</div>
+
+<div style="text-align: center; margin-bottom: 20px;">
     <a class="advanced-view-button" href="/advanced_tracker">Advanced View</a>
 </div>
 
-<div>
-    <!-- <div>
-        <h3>Symptom Tracker</h3>
-        <canvas id="symptomChart"></canvas>
-    </div> -->
-    <div>
+<div class="main-container">
+    <div class="side-container" style="width: 30%; padding: 20px;">
         <h3>Air Quality Index</h3>
         <div>
             <span>75</span>
@@ -29,7 +28,13 @@
             </div>
         </div>
     </div>
-    <div>
+
+    <div class="chart-container" style="width: 40%; margin: 0 auto;">
+        <h2>Symptom History</h2>
+        <canvas id="symptomChart" class="symptomChart"></canvas>
+    </div>
+
+    <div class="side-container" style="width: 30%; padding: 20px;">
         <h3>Weather Conditions</h3>
         <div>
             <div>
@@ -53,6 +58,10 @@
 </div>
 
 <style>
+
+.symptomChart { 
+    height: 350px!important;
+}
 .tracker-question {
     text-align: center;
     margin-top: 50px;
@@ -65,12 +74,10 @@
     margin-bottom: 20px;
 }
 .tracker-answers button {
-
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-
 }
 
 .tracker-answers button:hover img {
@@ -81,11 +88,7 @@
     width: 90px;
     height: 60px;
 }
-.advanced-view-button {
-    opacity: 0.7;
-    color: #000000;
 
-}
 .advanced-view-button {
     opacity: 0.7;
     color: #000000;
@@ -95,6 +98,17 @@
 .advanced-view-button:hover,
 .advanced-view-button:hover a {
     opacity: 1;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start; 
+    padding: 20px;
+}
+
+.side-container {
+    text-align: center; 
 }
 
 </style>
