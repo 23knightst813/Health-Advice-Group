@@ -119,10 +119,10 @@ const ctx = document.getElementById('symptomChart').getContext('2d');
 new Chart(ctx, {
     type: 'line',
     data: {
-        labels: JSON.parse('{{ symptom_labels|tojson|escapejs }}'),
+        labels: JSON.parse('{{ symptom_labels|tojson }}'),
         datasets: [{
             label: 'Symptom Severity',
-            data: JSON.parse('{{ symptom_data|tojson|escapejs }}'),
+            data: JSON.parse('{{ symptom_data|tojson }}'),
             borderColor: '#666',
             tension: 0.2,
             fill: false
