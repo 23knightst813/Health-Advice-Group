@@ -246,7 +246,7 @@ def tracker():
     return render_template('tracker.html',
                          symptom_labels=data['symptom_labels'],
                          symptom_data=data['symptom_data'],
-                         air_quality_index=data['air_quality']['index'],
+                         air_quality_index=round(data['air_quality']['index']),
                          air_quality_status=data['air_quality']['status'],
                          temperature=data['weather']['temperature'],
                          condition=data['weather']['condition'],
@@ -285,7 +285,7 @@ def log_mood():
         humidity=weather_data['humidity'],
         wind_speed=weather_data['wind_speed'],
         weather_condition=weather_data['condition'],
-        air_quality_index=air_quality_index,
+        air_quality_index=round(air_quality_index),
         air_quality_status=get_aqi_category(air_quality_index)
     )
 

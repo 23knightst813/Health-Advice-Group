@@ -228,5 +228,5 @@
 - Expected Result: flask flash, saved to database, Symptom History updated
 - Actual Result: Nothing
 - Status Pass: Fail
-
+- Fix: Add data base support
 
