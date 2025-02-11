@@ -222,8 +222,8 @@ def tracker():
             }
         })
 
-    air_quality_index = get_air_quality()
-    air_quality_index = air_quality_index['aqi']
+    air_quality_data = get_air_quality()
+    air_quality_index = air_quality_data['aqi']
     # Get air quality category
     aqi_category = get_aqi_category(air_quality_index)
     
@@ -267,8 +267,8 @@ def log_mood():
 
     user_id = get_user_id_by_email()
     weather_data = get_tacker_weather_data()
-    air_quality_index = get_air_quality()
-    air_quality_index = air_quality_index['aqi']
+    air_quality_data = get_air_quality()
+    air_quality_index = air_quality_data['aqi']
     # Map moods to severity levels
     severity_map = {
         'Sad': 1,
@@ -285,8 +285,8 @@ def log_mood():
         humidity=weather_data['humidity'],
         wind_speed=weather_data['wind_speed'],
         weather_condition=weather_data['condition'],
-        air_quality_index=weather_data['air_quality_index'],
-        air_quality_status=get_aqi_category(weather_data['air_quality_index'])
+        air_quality_index=air_quality_index,
+        air_quality_status=get_aqi_category(air_quality_index)
     )
 
     return {"success": True}, 200
