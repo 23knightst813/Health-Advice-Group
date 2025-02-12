@@ -219,7 +219,18 @@ def get_air_quality():
 
         # Calculate averages safely
         def safe_average(values):
-            return sum(values) / len(values) if values else 0
+            """
+            Calculate average of values, filtering out None values.
+            
+            Args:
+                values (list): List of numbers that may contain None values
+                
+            Returns:
+                float: Average of non-None values, or 0 if no valid values
+            """
+            # Filter out None values
+            valid_values = [v for v in values if v is not None]
+            return sum(valid_values) / len(valid_values) if valid_values else 0
 
         return {
             "ozone": safe_average(hourly_ozone),

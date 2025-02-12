@@ -253,43 +253,51 @@ def tracker():
                          humidity=data['weather']['humidity'],
                          wind_speed=data['weather']['wind_speed'])
 
+
 @app.route('/log_mood', methods=['POST'])
 def log_mood():
     """
     Handle mood logging from the symptom tracker.
     """
     if "email" not in session:
+        flash("Please login to track your symptoms", "error")
         return {"error": "Not logged in"}, 401
 
     mood = request.json.get('mood')
     if mood not in ['Sad', 'Neutral', 'Happy']:
+        flash("Invalid mood selection", "error")
         return {"error": "Invalid mood value"}, 400
 
-    user_id = get_user_id_by_email()
-    weather_data = get_tacker_weather_data()
-    air_quality_data = get_air_quality()
-    air_quality_index = air_quality_data['aqi']
-    # Map moods to severity levels
-    severity_map = {
-        'Sad': 1,
-        'Neutral': 3,
-        'Happy': 5
-    }
-    
-    # Save to symptom tracker table
-    save_symptom_record(
-        user_id=user_id,
-        severity=severity_map[mood],
-        mood=mood,
-        temperature=weather_data['temperature'],
-        humidity=weather_data['humidity'],
-        wind_speed=weather_data['wind_speed'],
-        weather_condition=weather_data['condition'],
-        air_quality_index=round(air_quality_index),
-        air_quality_status=get_aqi_category(air_quality_index)
-    )
+    try:
+        user_id = get_user_id_by_email()
+        weather_data = get_tacker_weather_data()
+        air_quality_data = get_air_quality()
+        air_quality_index = air_quality_data['aqi']
+        # Map moods to severity levels
+        severity_map = {
+            'Sad': 1,
+            'Neutral': 3,
+            'Happy': 5
+        }
+        
+        # Save to symptom tracker table
+        save_symptom_record(
+            user_id=user_id,
+            severity=severity_map[mood],
+            mood=mood,
+            temperature=weather_data['temperature'],
+            humidity=weather_data['humidity'],
+            wind_speed=weather_data['wind_speed'],
+            weather_condition=weather_data['condition'],
+            air_quality_index=round(air_quality_index),
+            air_quality_status=get_aqi_category(air_quality_index)
+        )
 
-    return {"success": True}, 200
+        flash(f"Successfully logged your mood: {mood}", "success")
+        return {"success": True}, 200
+    except Exception as e:
+        flash("Error saving your mood", "error")
+        return {"error": str(e)}, 500
 
 if __name__ == "__main__":
     set_up_db()
