@@ -6,7 +6,7 @@ body {
 
  }
 
-@media (max-height: 919px) {
+@media (max-height: 835px) {
     body {
         overflow-y: scroll;
     }
@@ -187,7 +187,7 @@ nav a:hover {
 
 .indexArt {
     flex: 2; 
-    max-width: 600px;
+    max-width: 550px;
     height: auto;
     filter: contrast(100%) grayscale(100% ) brightness(100%) exposure;
 }

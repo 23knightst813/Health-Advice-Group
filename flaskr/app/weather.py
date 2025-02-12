@@ -426,7 +426,7 @@ def get_ai_tips():
     6. USE  Environmental Factors
     7. Mention the users condition if they have any 
     8. Return ONLY valid JSON without any additional formatting or text
-    9. Only have 15 lines of advice total maximum
+    9. Only have 10 lines of advice total maximum
 
     Format your response EXACTLY like this example:
     {{"title": "Weather Alert e.g High wind", "tip": "specific scientific health advice"}}
