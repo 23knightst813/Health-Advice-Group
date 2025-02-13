@@ -129,3 +129,36 @@ function logMood(mood) {
         alert('Error logging mood');
     });
 }
+
+// Function to fetch user's IP address and send it to the backend
+function setUserIp() {
+    fetch('https://ipinfo.io/json')
+        .then(response => response.json())
+        .then(data => {
+            const userIp = data.ip;
+            fetch('/set_user_ip', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ ip: userIp })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('User IP set successfully');
+                } else {
+                    console.error('Error setting user IP:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching IP:', error);
+        });
+}
+
+// Call setUserIp function on every page load
+window.addEventListener('load', setUserIp);

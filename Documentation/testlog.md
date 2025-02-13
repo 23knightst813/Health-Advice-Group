@@ -230,3 +230,11 @@
 - Status Pass: Fail
 - Fix: Add data base support
 
+
+## Test Case 10: Deployment
+- Event:
+    - Loading Forcast Page
+- Expected Result: The location is the users location
+- Actual Result: The location is the servers location
+- Status Pass: Fail
+- Fix: Get the ip using clinet side scrypting

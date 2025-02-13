@@ -1,5 +1,5 @@
 import requests
-from flask import flash
+from flask import flash, session
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
@@ -450,8 +450,13 @@ def get_location_from_ip():
     Returns:
         str: The city name based on the user's IP address.
     """
+    user_ip = session.get('user_ip')
+    if not user_ip:
+        flash("User IP not found in session.", "error")
+        return None
+
     try:
-        ip_response = requests.get("https://ipinfo.io/json")
+        ip_response = requests.get(f"https://ipinfo.io/{user_ip}/json")
         ip_response.raise_for_status()
         ip_data = ip_response.json()
 
@@ -460,8 +465,8 @@ def get_location_from_ip():
             return None
         
         return ip_data['city']
-    except requests.RequestException:
-        flash("Failed to fetch location from IP.", "error")
+    except requests.RequestException as e:
+        flash(f"Failed to fetch location from IP: {str(e)}", "error")
         return None
 
 def get_coordinates(city_name):

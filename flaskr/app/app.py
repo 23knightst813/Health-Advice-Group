@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, flash, redirect, session , url_for
+from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
+
 
 from db import set_up_db,  add_user, save_risk_assessment,  get_latest_assessment_id, save_booking, save_symptom_record, get_symptom_history_labels, get_symptom_history_data
 from auth import sign_in, get_user_id_by_email
@@ -11,6 +12,17 @@ app = Flask(__name__, static_folder='../static')
 
 app.secret_key = 'secret_key' 
 
+@app.route("/set_user_ip", methods=["POST"])
+def set_user_ip():
+    """
+    Set the user's IP address in the session.
+    """
+    try:
+        user_ip = request.json.get('ip')
+        session['user_ip'] = user_ip
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/")
@@ -301,4 +313,5 @@ def log_mood():
 
 if __name__ == "__main__":
     set_up_db()
+    # app.run(debug=True)
     app.run(host="0.0.0.0", port=5000)
