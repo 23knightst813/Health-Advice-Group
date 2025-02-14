@@ -5,7 +5,7 @@ from db import set_up_db,  add_user, save_risk_assessment,  get_latest_assessmen
 from auth import sign_in, get_user_id_by_email
 from validation import is_not_empty, is_valid_email, is_secure_password
 from weather import  get_weather_data ,  get_air_ai_tips , get_aqi_category, get_ai_assesment_tips, get_air_quality, get_tacker_weather_data
-
+from RateLimit import rate_limit
 
 app = Flask(__name__, static_folder='../static')
 
@@ -42,6 +42,7 @@ def logout():
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
+@rate_limit()
 def register():
     """
     Handle user registration. Validate input, check for existing account, and add new user to the database.
@@ -83,6 +84,7 @@ def register():
 
 
 @app.route("/login", methods=["GET", "POST"])
+@rate_limit()
 def login():
     """
     Handle user login. Validate input and authenticate user.
@@ -95,6 +97,7 @@ def login():
     return render_template("login.html")
 
 @app.route("/forecast")
+@rate_limit()
 def forecast():
     """
     Render the weather forecast page with data.
@@ -108,6 +111,7 @@ def forecast():
     return render_template("forecast.html", data=data)
 
 @app.route("/dashboard")
+@rate_limit()
 def dashboard():
     """
     Render the dashboard page with air quality data and recommendations.
@@ -137,6 +141,7 @@ def dashboard():
     return render_template("dashboard.html", data=dashboard_data)
 
 @app.route("/risk_assessment", methods=["GET", "POST"])
+@rate_limit()
 def risk_assessment():
     """
     Handle risk assessment form submission. Save data to the database and redirect based on assessment type.
@@ -170,6 +175,7 @@ def risk_assessment():
     return render_template("risk_assessment.html")
 
 @app.route("/ai_assessment", methods=["GET", "POST"])
+@rate_limit()
 def ai_assessment():
     """
     Render the AI-powered risk assessment page with AI-generated tips.
@@ -178,6 +184,7 @@ def ai_assessment():
     return render_template("ai_assessment.html", ai_tips=ai_tips)
 
 @app.route("/assessment_booking", methods=["GET", "POST"])
+@rate_limit()
 def assessment_booking():
     """
     Handle assessment booking form submission. Save booking data to the database.
@@ -209,6 +216,7 @@ def assessment_booking():
 
 
 @app.route('/tracker')
+@rate_limit()
 def tracker():
     """
     Handle symptom tracking functionality. Retrieves weather, air quality, and symptom history data.
@@ -268,6 +276,7 @@ def tracker():
 
 
 @app.route('/log_mood', methods=['POST'])
+@rate_limit()
 def log_mood():
     """
     Handle mood logging from the symptom tracker.
