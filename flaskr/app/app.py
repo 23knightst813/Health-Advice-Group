@@ -311,6 +311,49 @@ def log_mood():
         flash("Error saving your mood", "error")
         return {"error": str(e)}, 500
 
+
+# Define error handlers for various HTTP status codes
+@app.errorhandler(404)
+def page_not_found(e):
+    logging.info(f"404 error: {request.url}")
+    flash('Page not found', 'error')
+    return redirect(url_for('home'))  
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    flash('Internal server error', 'error')
+    return redirect("/")
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    flash('Method not allowed', 'error')
+    return redirect("/")
+
+@app.errorhandler(403)
+def forbidden(e):
+    flash('Access denied', 'error')
+    return redirect("/")
+
+@app.errorhandler(401)
+def unauthorized(e):
+    flash('Unauthorized access', 'error')
+    return redirect("/")
+
+@app.errorhandler(400)
+def bad_request(e):
+    flash('Bad request', 'error')
+    return redirect("/")
+
+@app.errorhandler(413)
+def request_entity_too_large(e):
+    flash('Request entity too large', 'error')
+    return redirect("/")
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    flash('An unexpected error occurred. Please try again later.', 'error')
+    return redirect(url_for('home'))
+
 if __name__ == "__main__":
     set_up_db()
     # app.run(debug=True)

@@ -238,3 +238,9 @@
 - Actual Result: The location is the servers location
 - Status Pass: Fail
 - Fix: Get the ip using clinet side scrypting
+
+- Event:
+    - Creating multiple accounts
+- Expected Result:  Everything is handled 
+- Actual Result: sqlite3.OperationalError: database is locked
+- Status Pass: Fail
