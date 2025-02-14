@@ -20,6 +20,7 @@ def set_user_ip():
     try:
         user_ip = request.json.get('ip')
         session['user_ip'] = user_ip
+        print(user_ip)
         return jsonify({"success": True}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -315,7 +316,6 @@ def log_mood():
 # Define error handlers for various HTTP status codes
 @app.errorhandler(404)
 def page_not_found(e):
-    logging.info(f"404 error: {request.url}")
     flash('Page not found', 'error')
     return redirect(url_for('home'))  
 
