@@ -1,9 +1,8 @@
 from functools import wraps
-from flask import request
+from flask import request, jsonify
 from datetime import datetime, timedelta
 import threading
 from collections import defaultdict
-from flask import flash, redirect
 
 # Store request counts and timeout info
 ip_requests = defaultdict(lambda: defaultdict(list))
@@ -21,8 +20,7 @@ def rate_limit(max_requests=7, timeout_minutes=5):
             # Check if IP is in timeout
             if ip in ip_timeout and ip_timeout[ip] > now:
                 remaining = (ip_timeout[ip] - now).seconds
-                flash(f'Rate limit exceeded. Please try again in {remaining} seconds.', 'error')
-                return redirect("/")
+                return jsonify({'error': 'Rate limit exceeded. Please try again later.', 'retry_after': remaining}), 429
 
             with lock:
                 # Remove requests older than 1 minute
@@ -41,8 +39,7 @@ def rate_limit(max_requests=7, timeout_minutes=5):
                     ip_timeout[ip] = datetime.now() + timedelta(minutes=timeout_minutes)
                     # Clear requests for this route
                     ip_requests[ip][route] = []
-                    flash(f'Rate limit exceeded. Please try again in {timeout_minutes} minutes.', 'error')
-                    return redirect("/")
+                    return jsonify({'error': f'Rate limit exceeded. Please try again in {timeout_minutes} minutes.'}), 429
 
             return f(*args, **kwargs)
         return wrapped_function
