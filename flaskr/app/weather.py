@@ -55,17 +55,16 @@ def get_ai_assesment_tips():
         f"Assessment Data: {assessment_data} "
         f"Air Quality: {air_quality} "
         f"### Requirements: "
-        f"1. Identify at least 5 specific hazards or risks. "
+        f"1. Identify at least 3 specific hazards or risks. "
         f"2. Provide detailed mitigation strategies for each risk. "
-        f"3. If necessary, recommend a professional assessment from a health advisory group (the same website this is hosted on). "
-        f"4. YOU MUST FOCUS ON THE USERS HOUSE"
-        f"4. Respond in **valid JSON format**. "
-        f"Return a 1 JSON array of the  1 breakdown dont include multiple tips just 1 and tip is just placeholder its shoudl be more desctiobtion your not here to give tips your here to give a resk assesment in this exact format:\n"
+        f"3. If necessary, recommend a professional assessment from a health advisory group. "
+        f"4. Focus analysis specifically on the user's house. "
+        f"5. Respond in valid JSON format as shown below:\n"
         f"[{{\n"
         f"   \"title\": \"Risk Title\",\n"
         f"   \"tip\": \"Detailed mitigation advice\"\n"
         f"}}]\n\n"
-        f"Each tip should identify a specific risk and provide detailed mitigation strategy."
+        f"Provide one comprehensive risk assessment with a specific hazard title and detailed mitigation strategy."
     )
 
     try:
@@ -76,7 +75,7 @@ def get_ai_assesment_tips():
         if response_text.startswith("```"):
             response_text = response_text.split("```")[1]
             if response_text.startswith("json"):
-                response_text = response_text[4:].trip()
+                response_text = response_text[4:].strip()  
 
         # Parse JSON and ensure it's a list
         response_data = json.loads(response_text)
