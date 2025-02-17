@@ -1,10 +1,11 @@
 import requests
-from flask import flash, session
+from flask import session
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 import json
 import sqlite3
+import logging
 
 from auth import get_user_id_by_email
 
@@ -13,19 +14,19 @@ try:
     load_dotenv()
     API_KEY = os.getenv("GEMINI_API_KEY")
 except Exception as e:
-    flash(f"Error loading environment variables: {str(e)}", "error")
+    logging.error(f"Error loading environment variables: {str(e)}")
 
 # Set up generative AI model
 try:    
     if not API_KEY:
-        flash("GEMINI_API_KEY not found in environment variables", "error")
+        logging.error("GEMINI_API_KEY not found in environment variables")
         raise ValueError("API key not found")
 
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel("gemini-1.5-flash")
     
 except ValueError as e:
-    flash(f"Error loading Generative AI API: {str(e)}", "error")
+    logging.error(f"Error loading Generative AI API: {str(e)}")
 
 
 def get_ai_assesment_tips():
@@ -97,7 +98,7 @@ def get_ai_assesment_tips():
         }]
     
     except Exception as e:
-        flash(f"Error generating AI tips: {str(e)}", "error")
+        logging.error(f"Error generating AI tips: {str(e)}")
         return [{
             'title': 'Error',
             'tip': 'Unable to generate assessment at this time.'
@@ -240,10 +241,10 @@ def get_air_quality():
         }
 
     except requests.RequestException as e:
-        flash(f"Error fetching air quality data: {str(e)}", "error")
+        logging.error(f"Error fetching air quality data: {str(e)}")
         return None
     except ValueError as e:
-        flash(f"Error parsing air quality data: {str(e)}", "error")
+        logging.error(f"Error parsing air quality data: {str(e)}")
         return None
 
 
@@ -271,7 +272,7 @@ def get_air_ai_tips():
         try:
             user_id = get_user_id_by_email()
         except Exception as e:
-            print("User not signed in, proceeding anonymously", "info")
+            logging.info("User not signed in, proceeding anonymously")
 
         # Get health conditions if user is logged in
         if user_id:
@@ -325,10 +326,10 @@ def get_air_ai_tips():
         return response_data
 
     except json.JSONDecodeError as e:
-        flash(f"JSON parsing failed: {str(e)}", "error")
+        logging.error(f"JSON parsing failed: {str(e)}")
         return {"error": "Failed to parse AI response"}
     except Exception as e:
-        flash(f"Error generating tips: {str(e)}", "error")
+        logging.error(f"Error generating tips: {str(e)}")
         return {"error": "Unable to generate recommendations at this time"}
 
 
@@ -399,7 +400,7 @@ def get_ai_tips():
     try:
         user_id = get_user_id_by_email()
     except Exception as e:
-        flash(f"Not Signed In", "warning")
+        logging.warning("Not Signed In")
         conditions = "None"
     else:
         conn = sqlite3.connect('Health.db')
@@ -439,7 +440,7 @@ def get_ai_tips():
         return tips.text.strip()
 
     except Exception as e:
-        flash(f"Error generating AI tips: {str(e)}", "error")
+        logging.error(f"Error generating AI tips: {str(e)}")
         return None
 
 def get_location_from_ip():
@@ -451,7 +452,7 @@ def get_location_from_ip():
     """
     user_ip = session.get('user_ip')
     if not user_ip:
-        flash("User IP not found in session.", "error")
+        logging.error("User IP not found in session.")
         return None
 
     try:
@@ -460,12 +461,12 @@ def get_location_from_ip():
         ip_data = ip_response.json()
 
         if 'city' not in ip_data:
-            flash("City not found in IP data.", "error")
+            logging.error("City not found in IP data.")
             return None
         
         return ip_data['city']
     except requests.RequestException as e:
-        flash(f"Failed to fetch location from IP: {str(e)}", "error")
+        logging.error(f"Failed to fetch location from IP: {str(e)}")
         return None
 
 def get_coordinates(city_name):
@@ -485,13 +486,13 @@ def get_coordinates(city_name):
         geo_data = geo_response.json()
 
         if "results" not in geo_data:
-            flash("City not found in geocoding API.", "error")
+            logging.error("City not found in geocoding API.")
             return None
 
         city = geo_data['results'][0]
         return city['latitude'], city['longitude']
     except requests.RequestException:
-        flash("Failed to fetch coordinates.", "error")
+        logging.error("Failed to fetch coordinates.")
         return None
 
 def fetch_weather_forecast(lat, lon):
@@ -511,7 +512,7 @@ def fetch_weather_forecast(lat, lon):
         weather_response.raise_for_status()
         return weather_response.json()
     except requests.RequestException:
-        flash("Failed to fetch weather data.", "error")
+        logging.error("Failed to fetch weather data.")
         return None
 
 def format_forecast_data(city_name, weather_data, tips):
@@ -594,7 +595,7 @@ def get_weather_data():
                 tips = [tips]
             
         except json.JSONDecodeError as e:
-            flash(f"Error parsing AI tips: {str(e)}", "error")
+            logging.error(f"Error parsing AI tips: {str(e)}")
             print(f"Raw AI response: {tips_text}")
             return None
         
@@ -603,6 +604,5 @@ def get_weather_data():
         return formatted_data
         
     except Exception as e:
-        flash(f"Error in get_weather_data: {str(e)}", "error")
+        logging.error(f"Error in get_weather_data: {str(e)}")
         return None
-

@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, render_template, request, flash, redirect, session, url_for, jsonify
 
 
@@ -332,32 +333,26 @@ def page_not_found(e):
 def internal_server_error(e):
     flash('Internal server error', 'error')
     return redirect("/")
-
 @app.errorhandler(405)
 def method_not_allowed(e):
     flash('Method not allowed', 'error')
     return redirect("/")
-
 @app.errorhandler(403)
 def forbidden(e):
     flash('Access denied', 'error')
     return redirect("/")
-
 @app.errorhandler(401)
 def unauthorized(e):
     flash('Unauthorized access', 'error')
     return redirect("/")
-
 @app.errorhandler(400)
 def bad_request(e):
     flash('Bad request', 'error')
     return redirect("/")
-
 @app.errorhandler(413)
 def request_entity_too_large(e):
     flash('Request entity too large', 'error')
     return redirect("/")
-
 @app.errorhandler(Exception)
 def handle_exception(e):
     flash('An unexpected error occurred. Please try again later.', 'error')
@@ -365,5 +360,5 @@ def handle_exception(e):
 
 if __name__ == "__main__":
     set_up_db()
-    # app.run(debug=True)
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s: %(message)s')
     app.run(host="0.0.0.0", port=5000)

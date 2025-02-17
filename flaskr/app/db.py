@@ -1,7 +1,7 @@
 import sqlite3
 from werkzeug.security import generate_password_hash
 import time
-from flask import flash
+import logging
 
 def set_up_db():
     """
@@ -107,12 +107,12 @@ def add_user(email, password, CRD):
             ''', (email, hashed_password, CRD))
             
             conn.commit()  # Commit the transaction
-            flash('User added successfully!', 'success')  # Flash success message
+            logging.info('User added successfully!')  # Log success message
             return True
             
         except sqlite3.IntegrityError:
             # Handle case where the user already exists
-            flash('User already exists!', 'error')  # Flash error message
+            logging.error('User already exists!')  # Log error message
             return False
             
         except sqlite3.OperationalError as e:
@@ -120,7 +120,7 @@ def add_user(email, password, CRD):
             if "database is locked" in str(e):
                 attempt += 1  # Increment the attempt count
                 if attempt < max_attempts:
-                    flash('Database is locked, retrying...', 'warning')  # Flash warning message
+                    logging.warning('Database is locked, retrying...')  # Log warning message
                     time.sleep(1)  # Wait before retrying
                     continue
             raise  # Re-raise the exception if it's not a locked database error
@@ -129,7 +129,7 @@ def add_user(email, password, CRD):
             if 'conn' in locals():
                 conn.close()  # Ensure the database connection is closed
     
-    flash('Failed to add user after multiple attempts.', 'error')  # Flash error message if all attempts fail
+    logging.error('Failed to add user after multiple attempts.')  # Log error message if all attempts fail
     return False
 
 def save_risk_assessment(user_id, postcode, indoor_temp, indoor_humidity, smoke_detectors, co_alarms, assessment_type):

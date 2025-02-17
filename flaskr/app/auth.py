@@ -1,3 +1,4 @@
+import logging
 from flask import session, flash, redirect
 import sqlite3
 from werkzeug.security import check_password_hash
@@ -30,10 +31,13 @@ def sign_in(email, password):
             return redirect("/")
         else:
             flash("Invalid password", "error")
+            logging.error("Invalid password")
     else:
         flash("User not found", "error")
+        logging.error("User not found")
 
     flash("Invalid email or password", "error")
+    logging.error("Invalid email or password")
     return redirect("/login")
 
 def get_user_id_by_email():
@@ -47,6 +51,7 @@ def get_user_id_by_email():
         email = session.get("email")
         if not email:
             flash("User not logged in", "error")
+            logging.error("User not logged in")
             return None
             
         conn = sqlite3.connect('Health.db')
@@ -57,9 +62,11 @@ def get_user_id_by_email():
         
         if not result:
             flash("User not found", "error")
+            logging.error("User not found")
             return None
             
         return result[0]
     except Exception as e:
         flash(f"Database error: {str(e)}", "error")
+        logging.error(f"Database error: {str(e)}")
         return None
