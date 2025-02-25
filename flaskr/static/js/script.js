@@ -162,3 +162,50 @@ function setUserIp() {
 
 // Call setUserIp function on every page load
 window.addEventListener('load', setUserIp);
+
+
+// Function to set custom location for testing
+function testLocation(city, ip) {
+    // Override the fetch for ipinfo.io
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+      if (url.includes('ipinfo.io')) {
+        console.log(`Mocking location: ${city} with IP: ${ip}`);
+        return Promise.resolve({
+          json: () => Promise.resolve({
+            ip: ip,
+            city: city,
+            region: "Test Region",
+            country: "Test Country",
+            loc: "51.5074,-0.1278", // Default to London coords
+          })
+        });
+      }
+      return originalFetch(url, options);
+    };
+    
+    // Trigger the setUserIp function
+    setUserIp();
+    
+    // Restore original fetch after 2 seconds
+    setTimeout(() => {
+      window.fetch = originalFetch;
+      console.log("Location test complete. Refresh the page to see results.");
+    }, 2000);
+  }
+  
+  // Example locations to test
+  const testLocations = {
+    "London": "82.34.12.45",
+    "New York": "74.125.45.100",
+    "Tokyo": "123.45.67.89",
+    "Sydney": "1.2.3.4",
+    "Paris": "5.6.7.8"
+  };
+  
+  console.log("Available test locations:");
+  Object.keys(testLocations).forEach(city => {
+    console.log(`- ${city}`);
+  });
+  console.log("Usage: testLocation('London', '82.34.12.45')");
+  console.log("Or use a preset: testLocation('New York', testLocations['New York'])");

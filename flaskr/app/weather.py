@@ -43,6 +43,7 @@ def get_ai_assesment_tips():
     cursor.execute("SELECT * FROM risk_assessments WHERE user_id = ?", (user_id,)) 
     assessment_data = cursor.fetchone()
     conn.close()
+    city_name = get_location_from_ip() or "your area"
 
     # Get weather data
     air_quality = get_air_quality()
@@ -55,6 +56,7 @@ def get_ai_assesment_tips():
         f"Provide a detailed analysis with mitigation strategies to improve safety and livability. "
         f"Assessment Data: {assessment_data} "
         f"Air Quality: {air_quality} "
+        f"Answer in the local languge in {city_name}"
         f"### Requirements: "
         f"1. Identify at least 3 specific hazards or risks. "
         f"2. Provide detailed mitigation strategies for each risk. "
@@ -294,6 +296,7 @@ def get_air_ai_tips():
         Generate a concise air quality summary and health recommendations for {city_name}.
         User health conditions: {conditions}
         Current air quality data: {air_quality}
+        Answer in the local languge of the location, if anybit unsure answer in english
 
         Requirements:
         1. Structure response as valid JSON
@@ -417,7 +420,9 @@ def get_ai_tips():
     Generate one specific health tip for someone with {conditions} based on today's weather conditions in and Environmental Factors {city_name}.
     Weather: {weather_data}
     Environmental Factors: {current_weather_conditions}
+    Answer in the local languge of the location, if anybit unsure answer in english
 
+    
     Requirements:
     2. Consider temperature effects
     3. Make it practical and actionable

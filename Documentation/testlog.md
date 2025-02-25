@@ -186,6 +186,13 @@
 - Actual Result:  Data is displayed to the website as normal
 - Status: Pass
 
+-Event:
+    - Simulate running the forecast in a diffent country
+    - Expencted Result: Tips are giving in the locations local language
+    - Actual Result: Tips are displayed in england
+    - Status: Fail
+    - Fix: Add " Anwser in the locations local language " into the prompt
+
 ## Test Case 7: Air Quality Dashbaord
 - Event:
     - Load the page
@@ -244,3 +251,4 @@
 - Expected Result:  Everything is handled 
 - Actual Result: sqlite3.OperationalError: database is locked
 - Status Pass: Fail
+
