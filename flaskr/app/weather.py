@@ -296,7 +296,7 @@ def get_air_ai_tips():
         Generate a concise air quality summary and health recommendations for {city_name}.
         User health conditions: {conditions}
         Current air quality data: {air_quality}
-        Answer in the local languge of the location, if anybit unsure answer in english
+        You MUST answer in the langauge of the location
 
         Requirements:
         1. Structure response as valid JSON
@@ -420,7 +420,7 @@ def get_ai_tips():
     Generate one specific health tip for someone with {conditions} based on today's weather conditions in and Environmental Factors {city_name}.
     Weather: {weather_data}
     Environmental Factors: {current_weather_conditions}
-    Answer in the local languge of the location, if anybit unsure answer in english
+    You MUST answer in the langauge of the location
 
     
     Requirements:
