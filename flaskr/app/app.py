@@ -217,7 +217,6 @@ def assessment_booking():
 
 
 @app.route('/tracker')
-@rate_limit()
 def tracker():
     """
     Handle symptom tracking functionality. Retrieves weather, air quality, and symptom history data.
@@ -327,7 +326,7 @@ def log_mood():
 @app.errorhandler(404)
 def page_not_found(e):
     flash('Page not found', 'error')
-    return redirect(url_for('home'))  
+    return redirect("/")  
 
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -356,7 +355,7 @@ def request_entity_too_large(e):
 @app.errorhandler(Exception)
 def handle_exception(e):
     flash('An unexpected error occurred. Please try again later.', 'error')
-    return redirect(url_for('home'))
+    return redirect("/")
 
 if __name__ == "__main__":
     set_up_db()

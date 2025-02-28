@@ -9,7 +9,7 @@ ip_requests = defaultdict(lambda: defaultdict(list))
 ip_timeout = defaultdict(datetime)
 lock = threading.Lock()
 
-def rate_limit(max_requests=7, timeout_minutes=5):
+def rate_limit(max_requests=16, timeout_minutes=5):
     def decorator(f):
         @wraps(f)
         def wrapped_function(*args, **kwargs):
